@@ -1,5 +1,12 @@
 import React, { useState, useContext } from 'react'
-import { Button, Dialog, DialogContent } from '@material-ui/core'
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  FormControl,
+  InputLabel,
+  TextField
+} from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
 import { uploadFiles } from '../api/apiFiles'
@@ -111,6 +118,7 @@ const FileManager = () => {
           </section>
         )}
       </Dropzone>
+      <UserInput />
     </div>
   )
 }
@@ -130,6 +138,46 @@ const FileList = ({ files, deleteFile }) => {
         })}
       </ul>
     </div>
+  )
+}
+
+const UserInput = () => {
+  const onSubmit = e => {
+    console.log('submitting...')
+  }
+  return (
+    <form onSubmit={onSubmit}>
+      <TextField
+        placeholder="This will be the title of the article"
+        // value={state.max_students}
+        // onChange={handleChange}
+        name="article_title"
+        id="article_title"
+        label="Article title"
+        fullWidth
+      />
+      <TextField
+        placeholder="Type any text here to create an article"
+        multiline={true}
+        // value={state.max_students}
+        // onChange={handleChange}
+        name="article_content"
+        id="article_content"
+        label="Article content"
+        rows={6}
+        fullWidth
+      />
+      <div>
+        <Button
+          style={{ marginTop: 10 }}
+          type="submit"
+          variant="contained"
+          color="primary"
+        >
+          Submit Article{' '}
+        </Button>
+      </div>
+    </form>
   )
 }
 
