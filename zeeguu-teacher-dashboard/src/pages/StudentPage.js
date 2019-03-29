@@ -16,12 +16,10 @@ const StudentActivity = ({ classId, studentId }) => {
   useEffect(() => {
     loadUserSessions(studentId, 19).then(result => {
       let totalArticlesCount = 0
-      console.log(result)
       result.forEach(day => {
         totalArticlesCount += day.reading_sessions.length
       })
       setArticlesByDate(result)
-      console.log(result)
       setTotalArticlesCount(totalArticlesCount)
     })
     loadUserInfo(studentId, 10).then(({ data }) => {

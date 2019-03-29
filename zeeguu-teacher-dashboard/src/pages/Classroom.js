@@ -34,8 +34,6 @@ const ClassroomTemplate = ({ cohort, students }) => {
   ]
 
   const bodyItems = students.map(student => {
-    console.log('student.total_time')
-    console.log(student.total_time)
     return {
       data: [
         {
@@ -79,13 +77,11 @@ const Classroom = ({ classId }) => {
   }, [])
 
   const updateClass = form => {
-    console.log('in updateclass')
     setIsError(false)
     updateCohort(form, classId)
       .then(result => {
         setTimeout(() => {
           setIsOpen(false)
-          console.log('updating')
           getGeneralCohortInfo(classId).then(({ data }) => {
             setCohortInfo(data)
           })
