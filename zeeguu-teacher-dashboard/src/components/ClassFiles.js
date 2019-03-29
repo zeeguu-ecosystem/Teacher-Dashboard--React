@@ -8,7 +8,7 @@ import { MdClose } from 'react-icons/md/'
 
 import { languageMap } from '../utilities/helpers'
 
-import './filemanager.scss'
+import '../assets/styles/components/classFiles.scss'
 import ClassRoomContext from '../context/ClassRoomContext'
 
 const ClassFiles = () => {

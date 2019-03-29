@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { FormControl, MenuItem, Select } from '@material-ui/core'
 
-import './timeperiod.scss'
+import '../assets/styles/components/timeperiod.scss'
 
 import TimePeriodContext from '../context/TimePeriodContext'
 

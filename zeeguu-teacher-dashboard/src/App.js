@@ -1,6 +1,6 @@
 import { Router } from '@reach/router'
 import React, { useState, useEffect } from 'react'
-import './App.scss'
+import './assets/styles/App.scss'
 import Nav from './components/Nav'
 import Classroom from './pages/Classroom'
 import Home from './pages/Home'
