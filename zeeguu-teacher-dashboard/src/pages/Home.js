@@ -60,7 +60,6 @@ const Home = () => {
   const { timePeriod } = useContext(TimePeriodContext)
 
   useEffect(() => {
-    console.log('CURRENT TIME PERIOD IN HOME', timePeriod)
     getUsersByTeacher(timePeriod).then(students => {
       setAllStudents(students)
     })

@@ -29,7 +29,6 @@ const useAuthentication = () => {
 
   useEffect(() => {
     _checkSession().then(result => {
-      console.log('leading auth')
       setLoading(false)
       setAuthenticated(result)
     })

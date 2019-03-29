@@ -48,7 +48,7 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
               item.isSortable
                 ? () => {
                     const isReverse =
-                      sortingInfo.sortingIndex == index
+                      sortingInfo.sortingIndex === index
                         ? !sortingInfo.reverse
                         : false
                     setSortingInfo({

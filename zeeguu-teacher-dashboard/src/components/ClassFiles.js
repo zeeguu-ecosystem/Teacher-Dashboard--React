@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { Button, Dialog, DialogContent } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
-import { getFiles, uploadFiles } from '../api/apiFiles'
+import { uploadFiles } from '../api/apiFiles'
 
 import { MdClose } from 'react-icons/md/'
 
@@ -51,8 +51,6 @@ const createArticleObject = (content, title, languageCode) => {
   const wordCount = words.length
   const summary = words.slice(0, 30).join(' ')
 
-  console.log('summary', summary)
-
   const fileObject = {
     title,
     content,
@@ -76,8 +74,6 @@ const FileManager = () => {
 
   const classData = useContext(ClassRoomContext)
   const languageCode = languageMap[classData.language_name]
-  console.log('hyoooooooooooooooooooooo')
-  console.log(classData.language_name)
 
   const prepareFiles = files => {
     const filesData = files.map(async file => {
@@ -86,14 +82,12 @@ const FileManager = () => {
       return object
     })
     Promise.all(filesData).then(data => {
-      console.log('data', data)
       //todo send data to api
       uploadFiles(classData.id, data)
     })
   }
 
   const deleteFile = file => {
-    console.log('delete file', file)
     //todo call deletefile endpoint
   }
 

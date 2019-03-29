@@ -1,6 +1,5 @@
 import { apiGet } from './apiEndpoints'
 
-
 /**
  * Loads an invidiual user's data.
  * Requires permission (the logged in teacher must be a teacher of the class containing user with user_id ).
@@ -9,7 +8,6 @@ import { apiGet } from './apiEndpoints'
  * @returns {object} object containing (id, name, email, reading time, exercises done, last article)
  */
 export function loadUserInfo(userId, duration) {
-  console.log('loading user info')
   const studentInfo = apiGet(`/user_info/${userId}/${duration}`)
   return studentInfo
 }
@@ -25,8 +23,6 @@ export function loadUserSessions(userId, duration) {
     bookmarks = transformUserBookmarks(bookmarks)
     sessions = transformUserSession(sessions)
     const userData = makeUserData(sessions, bookmarks)
-    console.log('blabla')
-    console.log(userData)
     return userData
   })
 }
@@ -59,7 +55,6 @@ function transformUserBookmarks(data) {
     masterElement.date = day.date
     masterElement['article_list'] = []
     masterList.push(masterElement)
-    console.log(day.date)
     day.bookmarks.forEach(bookmark => {
       let existsArticle = false
       masterElement['article_list'].forEach(article => {
@@ -138,7 +133,6 @@ function makeUserData(readingSessions, bookmarks) {
         return { ...readingSession, bookmarks: bookmarksForSession }
       }
     )
-    console.log(readingSessionDay)
     return { ...readingSessionDay, reading_sessions: sessionsWithBookmarks }
   })
 }

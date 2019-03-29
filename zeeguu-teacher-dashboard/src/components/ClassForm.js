@@ -12,11 +12,10 @@ import { navigate } from '@reach/router'
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
-import { createCohort, deleteCohort, updateCohort } from '../api/apiCohort'
+import { deleteCohort } from '../api/apiCohort'
 import { languageMap } from '../utilities/helpers'
 
 const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
-  const [errorState, setErrorState] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const inputLabelRef = React.useRef(null)
   let curState = {}
@@ -66,7 +65,6 @@ const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   }
 
   function submitForm(event) {
-    setErrorState(false)
     setIsLoading(true)
 
     const form = setupForm()
