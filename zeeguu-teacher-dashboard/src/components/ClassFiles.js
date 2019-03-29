@@ -29,7 +29,12 @@ const ClassFiles = () => {
       >
         Manage Files
       </Button>
-      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        fullWidth
+        maxWidth={'sm'}
+      >
         <DialogContent>
           <FileManager />
         </DialogContent>
@@ -78,7 +83,6 @@ const FileManager = () => {
       name: 'Secondtestfilelol'
     }
   ])
-
   const classData = useContext(ClassRoomContext)
   const languageCode = languageMap[classData.language_name]
 
@@ -90,6 +94,7 @@ const FileManager = () => {
     })
     Promise.all(filesData).then(data => {
       //todo send data to api
+      console.log('files', data)
       uploadFiles(classData.id, data)
     })
   }
@@ -102,7 +107,7 @@ const FileManager = () => {
     <div className="file-manager">
       <h2>Manage files</h2>
       <FileList files={files} deleteFile={deleteFile} />
-
+      {/* <div className="user-upload"> */}
       <Dropzone
         accept={['.txt']} //maybe add .doc and .docx ?
         onDrop={acceptedFiles => prepareFiles(acceptedFiles)}
@@ -118,8 +123,9 @@ const FileManager = () => {
           </section>
         )}
       </Dropzone>
-      <UserInput />
+      <UserInput languageCode={languageCode} />
     </div>
+    // </div>
   )
 }
 
@@ -130,7 +136,7 @@ const FileList = ({ files, deleteFile }) => {
       <ul>
         {files.map(file => {
           return (
-            <li key={file.name}>
+            <li className="file" key={file.name}>
               <p>{file.name}</p>
               <MdClose size="22px" onClick={() => deleteFile(file)} />
             </li>
@@ -141,26 +147,57 @@ const FileList = ({ files, deleteFile }) => {
   )
 }
 
-const UserInput = () => {
-  const onSubmit = e => {
-    console.log('submitting...')
+const UserInput = ({ languageCode }) => {
+  const [state, setState] = useState({
+    article_title: '',
+    article_content: ''
+  })
+
+  const handleChange = event => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value
+    })
+    console.log('STATE', state)
   }
+
+  const submitArticle = e => {
+    e.preventDefault()
+    const words = state.article_content.split(/\s+/)
+    const wordCount = words.length
+    const summary = words.slice(0, 30).join(' ')
+    const title = state.article_title
+    const content = state.article_content
+
+    const fileObject = {
+      title,
+      content,
+      wordCount,
+      summary,
+      languageCode
+    }
+
+    console.log('SUBMITTING', fileObject)
+  }
+
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={submitArticle}>
       <TextField
+        type="text"
         placeholder="This will be the title of the article"
-        // value={state.max_students}
-        // onChange={handleChange}
+        value={state.article_title}
+        onChange={handleChange}
         name="article_title"
         id="article_title"
         label="Article title"
         fullWidth
       />
       <TextField
+        type="text"
         placeholder="Type any text here to create an article"
         multiline={true}
-        // value={state.max_students}
-        // onChange={handleChange}
+        value={state.article_content}
+        onChange={handleChange}
         name="article_content"
         id="article_content"
         label="Article content"
