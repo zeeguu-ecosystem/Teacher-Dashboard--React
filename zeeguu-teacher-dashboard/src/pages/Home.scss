@@ -1,0 +1,17 @@
+@import '../shared.scss';
+
+.page-home-tab-bar {
+  width: fit-content;
+}
+.page-home-content {
+  max-width: $content-width-max;
+  margin: 0 auto;
+  margin-bottom: 100px;
+}
+
+@media (max-width: 940px) {
+  .page-home-content {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+  }
+}

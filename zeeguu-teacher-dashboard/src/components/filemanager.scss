@@ -1,0 +1,14 @@
+@import '../shared.scss';
+
+.file-manager {
+}
+
+.drop-files {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 400px;
+  height: 200px;
+  border: 3px dashed $border-color;
+}

@@ -1,0 +1,36 @@
+@import '../../shared.scss';
+
+@mixin button-reset {
+  background: none;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  padding: 7px 20px;
+}
+
+.ztd-btn {
+  @include button-reset();
+  background-color: $color-primary;
+  color: $color-text-contrast;
+  font-size: $font-size-medium;
+  &:hover {
+    cursor: pointer;
+    background-color: $color-primary-hover;
+  }
+}
+
+.ztd-btn--secondary {
+  background-color: $color-secondary;
+}
+.ztd-btn--danger {
+  background-color: $color-danger;
+  &:hover {
+    background-color: $color-danger-hover;
+  }
+}
+
+.ztd-btn--rounded {
+  // width: 100px;
+  // height: 30px;
+  border-radius: 22px;
+}
