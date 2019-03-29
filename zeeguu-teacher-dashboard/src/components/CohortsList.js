@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { MdAddCircle, MdArrowForward, MdPeople } from 'react-icons/md/'
 import { createCohort } from '../api/apiCohort'
 import ClassForm from './ClassForm'
-import './cohortsList.scss'
+import '../assets/styles/components/cohortsList.scss'
 
 const CohortItem = ({ cohort }) => {
   return (

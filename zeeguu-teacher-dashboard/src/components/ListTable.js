@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
 
-import './listTable.scss'
+import '../assets/styles/components/listTable.scss'
 
 // function compareString(a, b) {}
 

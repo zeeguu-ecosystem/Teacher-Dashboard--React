@@ -8,8 +8,8 @@ import {
 } from '../api/apiCohort'
 import ClassForm from '../components/ClassForm'
 import ClassFiles from '../components/ClassFiles'
-import ListTable from '../components/ui/ListTable'
-import './classroom.scss'
+import ListTable from '../components/ListTable'
+import '../assets/styles/pages/classroom.scss'
 import { secondsToHoursAndMinutes } from '../utilities/helpers'
 
 import ClassRoomContext from '../context/ClassRoomContext'

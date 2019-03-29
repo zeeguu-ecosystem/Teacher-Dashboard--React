@@ -5,8 +5,8 @@ import React, { useEffect, useState, useContext } from 'react'
 import TimePeriodContext from '../context/TimePeriodContext'
 import { getCohortsInfo, getUsersByTeacher } from '../api/apiCohort'
 import CohortsList from '../components/CohortsList'
-import ListTable from '../components/ui/ListTable'
-import './Home.scss'
+import ListTable from '../components/ListTable'
+import '../assets/styles/pages/Home.scss'
 import Teacher from '../assets/images/teacher.svg'
 
 const headItems = [

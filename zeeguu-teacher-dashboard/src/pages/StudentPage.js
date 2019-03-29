@@ -6,7 +6,7 @@ import {
 import { MdExpandMore, MdKeyboardArrowRight } from 'react-icons/md/'
 import React, { useEffect, useState } from 'react'
 import { loadUserSessions, loadUserInfo } from '../api/apiUser'
-import './studentPage.scss'
+import '../assets/styles/pages/studentPage.scss'
 import { secondsToHoursAndMinutes } from '../utilities/helpers'
 
 const StudentActivity = ({ classId, studentId }) => {
