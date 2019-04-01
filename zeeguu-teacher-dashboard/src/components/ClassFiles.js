@@ -3,6 +3,7 @@ import { Button, Dialog, DialogContent, TextField } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
 import { uploadFiles } from '../api/apiFiles'
+import { getUserDetails } from '../api/apiUser'
 
 import { MdClose, MdCloudUpload } from 'react-icons/md/'
 
@@ -15,7 +16,12 @@ import ClassRoomContext from '../context/ClassRoomContext'
 
 const ClassFiles = () => {
   const [isOpen, setIsOpen] = useState(false)
-
+  useEffect(() => {
+    console.log('use effect')
+    const userDetails = getUserDetails().then(details => {
+      console.log('user details in classfiles', details)
+    })
+  }, [])
   return (
     <>
       <Button

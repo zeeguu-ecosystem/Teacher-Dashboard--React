@@ -1,5 +1,11 @@
 import { apiGet } from './apiEndpoints'
 
+export function getUserDetails() {
+  const userDetails = apiGet(`/get_user_details`)
+  console.log('User details', userDetails)
+  return userDetails
+}
+
 /**
  * Loads an invidiual user's data.
  * Requires permission (the logged in teacher must be a teacher of the class containing user with user_id ).
