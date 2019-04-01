@@ -3,7 +3,6 @@ import { Button, Dialog, DialogContent, TextField } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
 import { uploadFiles } from '../api/apiFiles'
-import { getUserDetails } from '../api/apiUser'
 
 import { MdClose, MdCloudUpload } from 'react-icons/md/'
 
@@ -13,15 +12,11 @@ import { getFiles } from '../api/apiFiles'
 
 import '../assets/styles/components/classFiles.scss'
 import ClassRoomContext from '../context/ClassRoomContext'
+import UserContext from '../context/UserContext'
 
 const ClassFiles = () => {
   const [isOpen, setIsOpen] = useState(false)
-  useEffect(() => {
-    console.log('use effect')
-    const userDetails = getUserDetails().then(details => {
-      console.log('user details in classfiles', details)
-    })
-  }, [])
+
   return (
     <>
       <Button
@@ -60,15 +55,15 @@ const readFileContent = file => {
   })
 }
 
-const createArticleObject = (title, content, languageCode) => {
+const createArticleObject = (title, content, languageCode, user) => {
   const words = content.split(/\s+/)
-  const wordCount = words.length
   const summary = words.slice(0, 30).join(' ')
+  const authors = user.name
 
   const articleObject = {
     title,
     content,
-    word_count: wordCount,
+    authors,
     summary,
     language_code: languageCode
   }
@@ -78,6 +73,7 @@ const createArticleObject = (title, content, languageCode) => {
 
 const FileManager = () => {
   const classData = useContext(ClassRoomContext)
+  const user = useContext(UserContext)
   const [filesToUpload, setFilesToUpload] = useState([])
   const [files, setFiles] = useState([])
 
@@ -92,7 +88,7 @@ const FileManager = () => {
   const prepareFiles = files => {
     const filesData = files.map(async file => {
       const content = await readFileContent(file)
-      const object = createArticleObject(file.name, content, languageCode)
+      const object = createArticleObject(file.name, content, languageCode, user)
       return object
     })
     Promise.all(filesData).then(data => {
