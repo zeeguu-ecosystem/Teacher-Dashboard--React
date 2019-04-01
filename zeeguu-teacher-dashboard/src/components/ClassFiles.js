@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Button, Dialog, DialogContent, TextField } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
-import { uploadFiles } from '../api/apiFiles'
+import { uploadFiles, deleteArticle } from '../api/apiFiles'
 
 import { MdClose, MdCloudUpload } from 'react-icons/md/'
 
@@ -55,7 +55,9 @@ const readFileContent = file => {
   })
 }
 
-const createArticleObject = (title, content, languageCode, user) => {
+const createArticleObject = (name, content, languageCode, user) => {
+  const title = name.substr(0, name.lastIndexOf('.')) || name
+
   const words = content.split(/\s+/)
   const summary = words.slice(0, 30).join(' ')
   const authors = user.name
@@ -74,6 +76,7 @@ const createArticleObject = (title, content, languageCode, user) => {
 const FileManager = () => {
   const classData = useContext(ClassRoomContext)
   const user = useContext(UserContext)
+  const [refetchFiles, setRefetchFiles] = useState(0)
   const [filesToUpload, setFilesToUpload] = useState([])
   const [files, setFiles] = useState([])
 
@@ -81,7 +84,7 @@ const FileManager = () => {
     getFiles(classData.id).then(result => {
       setFiles(result.data)
     })
-  }, [])
+  }, [refetchFiles])
 
   const languageCode = languageMap[classData.language_name]
 
@@ -92,21 +95,25 @@ const FileManager = () => {
       return object
     })
     Promise.all(filesData).then(data => {
-      //todo send data to api
       console.log('files', data)
       setFilesToUpload(data)
-      // uploadFiles(classData.id, data)
     })
   }
 
   const onUploadFiles = e => {
     e.preventDefault()
     console.log('uploading...')
-    uploadFiles(classData.id, filesToUpload)
+    uploadFiles(classData.id, filesToUpload).then(result => {
+      setRefetchFiles(prev => prev + 1)
+    })
   }
 
   const deleteFile = file => {
-    //todo call deletefile endpoint
+    console.log('deleting...', file)
+    deleteArticle(classData.id, file.id).then(result => {
+      console.log('result', result)
+      setRefetchFiles(prev => prev + 1)
+    })
   }
 
   return (
@@ -132,7 +139,7 @@ const FileManager = () => {
                     </ul>
                   ) : (
                     <p>
-                      Drag 'n' drop some files here, or click to select files
+                      Drag and drop some files here, or click to select files
                     </p>
                   )}
                 </div>
@@ -153,7 +160,10 @@ const FileManager = () => {
         ) : null}
       </div>
 
-      <UserInput />
+      <UserInput
+        refetchFiles={() => setRefetchFiles(prev => prev + 1)}
+        user={user}
+      />
     </div>
     // </div>
   )
@@ -177,7 +187,7 @@ const FileList = ({ files, deleteFile }) => {
   )
 }
 
-const UserInput = () => {
+const UserInput = ({ user, refetchFiles }) => {
   const classData = useContext(ClassRoomContext)
   const languageCode = languageMap[classData.language_name]
 
@@ -198,10 +208,13 @@ const UserInput = () => {
     let articleObj = createArticleObject(
       state.article_title,
       state.article_content,
-      languageCode
+      languageCode,
+      user
     )
     console.log('submitting', articleObj)
-    //todo upload file, maybe as array to match server
+    uploadFiles(classData.id, [articleObj]).then(result => {
+      refetchFiles()
+    })
   }
 
   return (
