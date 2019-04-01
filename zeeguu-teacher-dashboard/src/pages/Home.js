@@ -23,7 +23,17 @@ const headItems = [
   {
     width: 50,
     isSortable: false,
-    content: <p>ACTIVITY</p>
+    content: (
+      <p>
+        ACTIVITY{' '}
+        <span className="activity-heading activity-heading__reading">
+          Reading /
+        </span>
+        <span className="activity-heading activity-heading__exercises">
+          Exercises
+        </span>
+      </p>
+    )
   }
 ]
 
@@ -46,7 +56,27 @@ function getStudentBodyItems(students) {
         )
       },
       {
-        content: <p>{student.learning_proportion}</p>
+        content: (
+          <div
+            className="activity-bar"
+            style={{
+              width: student.normalized_activity_proportion + '%'
+            }}
+          >
+            <div
+              className="activity-bar__reading"
+              style={{
+                width: student.learning_proportion + '%'
+              }}
+            />
+            <div
+              className="activity-bar__exercises"
+              style={{
+                width: 100 - student.learning_proportion + '%'
+              }}
+            />
+          </div>
+        )
       }
     ],
     renderComponent: props => <Link to={'student/' + student.id} {...props} />
@@ -74,13 +104,6 @@ const Home = () => {
   const handleChange = (event, value) => {
     setActiveTag(value)
   }
-
-  // can be used to add a newly created cohort to the list without refreshing
-  // might not be smart though - needs testing
-  // function addCohort(cohort) {
-  //   setCohortsInfo([...cohorts, cohort])
-  // }
-
   return (
     <div className="page-home">
       <div className="page-home-content">
@@ -103,7 +126,6 @@ const Home = () => {
           ) : (
             <NoStudents />
           ))}
-        {/* {cohorts.length ? <HomeTemplate cohorts={cohorts} /> : <p>Loading</p>} */}
       </div>
     </div>
   )

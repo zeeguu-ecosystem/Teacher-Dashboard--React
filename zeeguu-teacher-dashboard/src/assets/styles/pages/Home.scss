@@ -9,6 +9,31 @@
   margin-bottom: 100px;
 }
 
+.activity-heading {
+  font-size: 14px;
+  margin-right: 2px;
+
+  &__reading {
+    color: $color-reading;
+  }
+  &__exercises {
+    color: $color-exercises;
+  }
+}
+
+.activity-bar {
+  height: 20px;
+  display: flex;
+  padding-right: 20px;
+
+  &__reading {
+    background-color: $color-reading;
+  }
+  &__exercises {
+    background-color: $color-exercises;
+  }
+}
+
 @media (max-width: 940px) {
   .page-home-content {
     display: inline-grid;

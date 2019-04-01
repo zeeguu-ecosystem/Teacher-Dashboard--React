@@ -35,7 +35,7 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
       }
     }
     setSortedBodyItems(sortedItems)
-  }, [sortingInfo])
+  }, [sortingInfo, bodyItems])
 
   return (
     <div>
