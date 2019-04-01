@@ -11,7 +11,7 @@ import Dropzone from 'react-dropzone'
 
 import { uploadFiles } from '../api/apiFiles'
 
-import { MdClose } from 'react-icons/md/'
+import { MdClose, MdCloudUpload } from 'react-icons/md/'
 
 import { languageMap } from '../utilities/helpers'
 
@@ -58,12 +58,12 @@ const readFileContent = file => {
   })
 }
 
-const createArticleObject = (content, title, languageCode) => {
+const createArticleObject = (title, content, languageCode) => {
   const words = content.split(/\s+/)
   const wordCount = words.length
   const summary = words.slice(0, 30).join(' ')
 
-  const fileObject = {
+  const articleObject = {
     title,
     content,
     wordCount,
@@ -71,7 +71,7 @@ const createArticleObject = (content, title, languageCode) => {
     languageCode
   }
 
-  return fileObject
+  return articleObject
 }
 
 const FileManager = () => {
@@ -83,20 +83,28 @@ const FileManager = () => {
       name: 'Secondtestfilelol'
     }
   ])
+  const [filesToUpload, setFilesToUpload] = useState([])
   const classData = useContext(ClassRoomContext)
   const languageCode = languageMap[classData.language_name]
 
   const prepareFiles = files => {
     const filesData = files.map(async file => {
       const content = await readFileContent(file)
-      const object = createArticleObject(content, file.name, languageCode)
+      const object = createArticleObject(file.name, content, languageCode)
       return object
     })
     Promise.all(filesData).then(data => {
       //todo send data to api
       console.log('files', data)
-      uploadFiles(classData.id, data)
+      setFilesToUpload(data)
+      // uploadFiles(classData.id, data)
     })
+  }
+
+  const onUploadFiles = e => {
+    e.preventDefault()
+    console.log('uploading...')
+    uploadFiles(classData.id, filesToUpload)
   }
 
   const deleteFile = file => {
@@ -108,22 +116,46 @@ const FileManager = () => {
       <h2>Manage files</h2>
       <FileList files={files} deleteFile={deleteFile} />
       {/* <div className="user-upload"> */}
-      <Dropzone
-        accept={['.txt']} //maybe add .doc and .docx ?
-        onDrop={acceptedFiles => prepareFiles(acceptedFiles)}
-      >
-        {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <div className="drop-files">
-                Drag 'n' drop some files here, or click to select files
+      <div style={{ marginBottom: '20px' }}>
+        <Dropzone
+          accept={['.txt']}
+          onDrop={acceptedFiles => prepareFiles(acceptedFiles)}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <div className="drop-files">
+                  {filesToUpload.length ? (
+                    <ul>
+                      {filesToUpload.map(file => (
+                        <li key={file.title}>{file.title}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>
+                      Drag 'n' drop some files here, or click to select files
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          </section>
-        )}
-      </Dropzone>
-      <UserInput languageCode={languageCode} />
+            </section>
+          )}
+        </Dropzone>
+        {filesToUpload.length ? (
+          <Button
+            onClick={onUploadFiles}
+            variant="contained"
+            color="default"
+            style={{ marginTop: 10 }}
+          >
+            Upload files as articles
+            <MdCloudUpload style={{ marginLeft: '10px' }} />
+          </Button>
+        ) : null}
+      </div>
+
+      <UserInput />
     </div>
     // </div>
   )
@@ -131,7 +163,7 @@ const FileManager = () => {
 
 const FileList = ({ files, deleteFile }) => {
   return (
-    <div>
+    <div className="file-list">
       <h4>File list</h4>
       <ul>
         {files.map(file => {
@@ -147,7 +179,10 @@ const FileList = ({ files, deleteFile }) => {
   )
 }
 
-const UserInput = ({ languageCode }) => {
+const UserInput = () => {
+  const classData = useContext(ClassRoomContext)
+  const languageCode = languageMap[classData.language_name]
+
   const [state, setState] = useState({
     article_title: '',
     article_content: ''
@@ -158,26 +193,17 @@ const UserInput = ({ languageCode }) => {
       ...state,
       [event.target.name]: event.target.value
     })
-    console.log('STATE', state)
   }
 
   const submitArticle = e => {
     e.preventDefault()
-    const words = state.article_content.split(/\s+/)
-    const wordCount = words.length
-    const summary = words.slice(0, 30).join(' ')
-    const title = state.article_title
-    const content = state.article_content
-
-    const fileObject = {
-      title,
-      content,
-      wordCount,
-      summary,
+    let articleObj = createArticleObject(
+      state.article_title,
+      state.article_content,
       languageCode
-    }
-
-    console.log('SUBMITTING', fileObject)
+    )
+    console.log('submitting', articleObj)
+    //todo upload file, maybe as array to match server
   }
 
   return (
@@ -210,6 +236,7 @@ const UserInput = ({ languageCode }) => {
           type="submit"
           variant="contained"
           color="primary"
+          disabled={!(state.article_title && state.article_content)}
         >
           Submit Article{' '}
         </Button>
