@@ -1,12 +1,5 @@
-import React, { useState, useContext } from 'react'
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  FormControl,
-  InputLabel,
-  TextField
-} from '@material-ui/core'
+import React, { useState, useContext, useEffect } from 'react'
+import { Button, Dialog, DialogContent, TextField } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
 import { uploadFiles } from '../api/apiFiles'
@@ -15,11 +8,14 @@ import { MdClose, MdCloudUpload } from 'react-icons/md/'
 
 import { languageMap } from '../utilities/helpers'
 
+import { getFiles } from '../api/apiFiles'
+
 import '../assets/styles/components/classFiles.scss'
 import ClassRoomContext from '../context/ClassRoomContext'
 
 const ClassFiles = () => {
   const [isOpen, setIsOpen] = useState(false)
+
   return (
     <>
       <Button
@@ -66,25 +62,25 @@ const createArticleObject = (title, content, languageCode) => {
   const articleObject = {
     title,
     content,
-    wordCount,
+    word_count: wordCount,
     summary,
-    languageCode
+    language_code: languageCode
   }
 
   return articleObject
 }
 
 const FileManager = () => {
-  const [files, setFiles] = useState([
-    {
-      name: 'Testfilehey1'
-    },
-    {
-      name: 'Secondtestfilelol'
-    }
-  ])
-  const [filesToUpload, setFilesToUpload] = useState([])
   const classData = useContext(ClassRoomContext)
+  const [filesToUpload, setFilesToUpload] = useState([])
+  const [files, setFiles] = useState([])
+
+  useEffect(() => {
+    getFiles(classData.id).then(result => {
+      setFiles(result.data)
+    })
+  }, [])
+
   const languageCode = languageMap[classData.language_name]
 
   const prepareFiles = files => {
@@ -168,8 +164,8 @@ const FileList = ({ files, deleteFile }) => {
       <ul>
         {files.map(file => {
           return (
-            <li className="file" key={file.name}>
-              <p>{file.name}</p>
+            <li className="file" key={file.id}>
+              <p>{file.title}</p>
               <MdClose size="22px" onClick={() => deleteFile(file)} />
             </li>
           )
