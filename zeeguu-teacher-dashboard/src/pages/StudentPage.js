@@ -4,17 +4,19 @@ import {
   ExpansionPanelSummary
 } from '@material-ui/core'
 import { MdExpandMore, MdKeyboardArrowRight } from 'react-icons/md/'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { loadUserSessions, loadUserInfo } from '../api/apiUser'
 import '../assets/styles/pages/studentPage.scss'
 import { secondsToHoursAndMinutes } from '../utilities/helpers'
+import TimePeriodContext from '../context/TimePeriodContext'
 
-const StudentActivity = ({ classId, studentId }) => {
+const StudentActivity = ({ studentId }) => {
+  const { timePeriod } = useContext(TimePeriodContext)
   const [articlesByDate, setArticlesByDate] = useState([])
   const [totalArticlesCount, setTotalArticlesCount] = useState(0)
   const [userInfo, setUserInfo] = useState({})
   useEffect(() => {
-    loadUserSessions(studentId, 19).then(result => {
+    loadUserSessions(studentId, timePeriod).then(result => {
       let totalArticlesCount = 0
       result.forEach(day => {
         totalArticlesCount += day.reading_sessions.length
@@ -22,10 +24,10 @@ const StudentActivity = ({ classId, studentId }) => {
       setArticlesByDate(result)
       setTotalArticlesCount(totalArticlesCount)
     })
-    loadUserInfo(studentId, 10).then(({ data }) => {
+    loadUserInfo(studentId, timePeriod).then(({ data }) => {
       setUserInfo(data)
     })
-  }, [])
+  }, [timePeriod])
   return (
     <div className="student-page">
       {articlesByDate.map((day, index) => (
