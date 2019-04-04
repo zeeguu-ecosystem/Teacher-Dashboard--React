@@ -13,9 +13,6 @@ const Nav = () => (
         <img src={Logo} alt="" className="logo" />
         <p className="link-text"> Zeeguu Teacher Dashboard</p>
       </Link>
-      <Link to="/">
-        <p className="link-text"> Student activity page</p>
-      </Link>
     </div>
     <TimePeriod />
   </nav>

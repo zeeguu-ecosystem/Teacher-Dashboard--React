@@ -5,83 +5,9 @@ import React, { useEffect, useState, useContext } from 'react'
 import TimePeriodContext from '../context/TimePeriodContext'
 import { getCohortsInfo, getUsersByTeacher } from '../api/apiCohort'
 import CohortsList from '../components/CohortsList'
-import ListTable from '../components/ListTable'
+import StudentListTable from '../components/StudentListTable'
 import '../assets/styles/pages/Home.scss'
 import Teacher from '../assets/images/teacher.svg'
-
-const headItems = [
-  {
-    width: 25,
-    isSortable: true,
-    content: <p>NAME</p>
-  },
-  {
-    width: 25,
-    isSortable: true,
-    content: <p>TIME SPENT</p>
-  },
-  {
-    width: 50,
-    isSortable: false,
-    content: (
-      <p>
-        ACTIVITY{' '}
-        <span className="activity-heading activity-heading__reading">
-          Reading /
-        </span>
-        <span className="activity-heading activity-heading__exercises">
-          Exercises
-        </span>
-      </p>
-    )
-  }
-]
-
-function getStudentBodyItems(students) {
-  return students.map(student => ({
-    data: [
-      {
-        sortingValue: student.name,
-        sortingType: 'string',
-        content: <p>{student.name}</p>
-      },
-      {
-        sortingValue: student.total_time,
-        sortingType: 'number',
-        content: (
-          <p>
-            {Math.floor(student.total_time / 3600)}h{' '}
-            {Math.ceil((student.total_time / 60) % 60)}m
-          </p>
-        )
-      },
-      {
-        content: (
-          <div
-            className="activity-bar"
-            style={{
-              width: student.normalized_activity_proportion + '%'
-            }}
-          >
-            <div
-              className="activity-bar__reading"
-              style={{
-                width: student.learning_proportion + '%'
-              }}
-            />
-            <div
-              className="activity-bar__exercises"
-              style={{
-                width: 100 - student.learning_proportion + '%'
-              }}
-            />
-          </div>
-        )
-      }
-    ],
-    renderComponent: props => <Link to={'student/' + student.id} {...props} />
-  }))
-}
 
 const Home = () => {
   const [cohorts, setCohortsInfo] = useState([])
@@ -119,9 +45,8 @@ const Home = () => {
         {activeTab === 0 && <CohortsList cohorts={cohorts} />}
         {activeTab === 1 &&
           (allStudents.length ? (
-            <ListTable
-              headItems={headItems}
-              bodyItems={getStudentBodyItems(allStudents)}
+            <StudentListTable
+              students={allStudents}
             />
           ) : (
             <NoStudents />

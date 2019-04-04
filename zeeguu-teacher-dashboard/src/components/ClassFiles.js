@@ -14,32 +14,6 @@ import '../assets/styles/components/classFiles.scss'
 import ClassRoomContext from '../context/ClassRoomContext'
 import UserContext from '../context/UserContext'
 
-const ClassFiles = () => {
-  const [isOpen, setIsOpen] = useState(false)
-
-  return (
-    <>
-      <Button
-        color="secondary"
-        variant="contained"
-        onClick={() => setIsOpen(true)}
-      >
-        Manage Files
-      </Button>
-      <Dialog
-        open={isOpen}
-        onClose={() => setIsOpen(false)}
-        fullWidth
-        maxWidth={'sm'}
-      >
-        <DialogContent>
-          <FileManager />
-        </DialogContent>
-      </Dialog>
-    </>
-  )
-}
-
 const readFileContent = file => {
   const reader = new FileReader()
   return new Promise((resolve, reject) => {
@@ -73,7 +47,7 @@ const createArticleObject = (name, content, languageCode, user) => {
   return articleObject
 }
 
-const FileManager = () => {
+const ClassFiles = () => {
   const classData = useContext(ClassRoomContext)
   const user = useContext(UserContext)
   const [refetchFiles, setRefetchFiles] = useState(0)
@@ -165,7 +139,6 @@ const FileManager = () => {
         user={user}
       />
     </div>
-    // </div>
   )
 }
 

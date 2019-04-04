@@ -18,28 +18,15 @@ import { languageMap } from '../utilities/helpers'
 const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   const [isLoading, setIsLoading] = useState(false)
   const inputLabelRef = React.useRef(null)
-  let curState = {}
-  // If the form is being edited it already has data, so fill the inputs with that
-  if (cohort) {
-    curState = {
-      id: cohort.id,
-      class_name: cohort.name,
-      invite_code: cohort.inv_code,
-      language_id: languageMap[cohort.language_name],
-      max_students: cohort.max_students,
-      labelWidth: 0
-    }
-  } else {
-    curState = {
-      class_name: '',
-      invite_code: '',
-      language_id: 'es',
-      max_students: 20,
-      labelWidth: 0
-    }
-  }
 
-  const [state, setState] = useState(curState)
+  const [state, setState] = useState({
+    id: cohort ? cohort.id : '',
+    class_name: cohort ? cohort.name : '',
+    invite_code: cohort ? cohort.inv_code : '',
+    language_id: cohort ? languageMap[cohort.language_name] : 'es',
+    max_students: cohort ? cohort.max_students : 20,
+    labelWidth: 0
+  })
 
   React.useEffect(() => {
     setState({
@@ -66,24 +53,8 @@ const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
 
   function submitForm(event) {
     setIsLoading(true)
-
     const form = setupForm()
     onSubmit(form)
-    // setTimeout(() => onSubmit(form), 2000)
-
-    // if (cohort) {
-    //   updateCohort(form, cohort.id)
-    //     .then(res => {
-    //       setTimeout(() => doneUpdating(), 2000)
-    //     })
-    //     .catch(err => setErrorState(true))
-    // } else {
-    //   createCohort(form)
-    //     .then(res => {
-    //       setTimeout(() => closemodal(), 2000)
-    //     })
-    //     .catch(err => setErrorState(true))
-    // }
     event.preventDefault()
   }
 

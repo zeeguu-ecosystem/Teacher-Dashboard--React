@@ -22,9 +22,7 @@ const App = () => {
   const [userDetails, setUserDetails] = useState({})
 
   useEffect(() => {
-    console.log('use effect')
     getUserDetails().then(details => {
-      console.log('user details', details.data)
       setUserDetails(details.data)
     })
   }, [])
