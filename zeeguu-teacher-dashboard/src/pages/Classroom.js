@@ -1,5 +1,4 @@
 import { Button, Dialog, DialogContent } from '@material-ui/core'
-import { Link } from '@reach/router'
 import React, { useEffect, useState } from 'react'
 import {
   getGeneralCohortInfo,
@@ -8,64 +7,17 @@ import {
 } from '../api/apiCohort'
 import ClassForm from '../components/ClassForm'
 import ClassFiles from '../components/ClassFiles'
-import ListTable from '../components/ListTable'
-import '../assets/styles/pages/classroom.scss'
-import { secondsToHoursAndMinutes } from '../utilities/helpers'
+import StudentListTable from '../components/StudentListTable'
 
 import ClassRoomContext from '../context/ClassRoomContext'
 
-const ClassroomTemplate = ({ cohort, students }) => {
-  const headItems = [
-    {
-      width: 25,
-      isSortable: true,
-      content: <p>NAME</p>
-    },
-    {
-      width: 25,
-      isSortable: true,
-      content: <p>TIME SPENT</p>
-    },
-    {
-      width: 50,
-      isSortable: false,
-      content: <p>ACTIVITY</p>
-    }
-  ]
+import '../assets/styles/pages/classroom.scss'
 
-  const bodyItems = students.map(student => {
-    return {
-      data: [
-        {
-          sortingValue: student.name,
-          sortingType: 'string',
-          content: <p>{student.name}</p>
-        },
-        {
-          sortingValue: student.total_time,
-          sortingType: 'number',
-          content: <p>{secondsToHoursAndMinutes(student.total_time)}</p>
-        },
-        {
-          content: <p>{student.learning_proportion}</p>
-        }
-      ],
-      renderComponent: props => (
-        <Link to={'/student/' + student.id} {...props} />
-      )
-    }
-  })
-  return (
-    <div className="">
-      <ListTable headItems={headItems} bodyItems={bodyItems} />
-    </div>
-  )
-}
 const Classroom = ({ classId }) => {
   const [cohortInfo, setCohortInfo] = useState({})
   const [students, setStudents] = useState([])
-  const [isOpen, setIsOpen] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const [formIsOpen, setFormIsOpen] = useState(false)
+  const [formStateIsError, setFormStateIsError] = useState(false)
 
   useEffect(() => {
     getGeneralCohortInfo(classId).then(({ data }) => {
@@ -77,17 +29,17 @@ const Classroom = ({ classId }) => {
   }, [])
 
   const updateClass = form => {
-    setIsError(false)
+    setFormStateIsError(false)
     updateCohort(form, classId)
       .then(result => {
         setTimeout(() => {
-          setIsOpen(false)
+          setFormIsOpen(false)
           getGeneralCohortInfo(classId).then(({ data }) => {
             setCohortInfo(data)
           })
         }, 2000)
       })
-      .catch(err => setIsError(true))
+      .catch(err => setFormStateIsError(true))
   }
 
   return (
@@ -108,18 +60,17 @@ const Classroom = ({ classId }) => {
             <Button
               color="primary"
               variant="contained"
-              onClick={() => setIsOpen(true)}
+              onClick={() => setFormIsOpen(true)}
             >
               Edit class
             </Button>
-            <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+            <Dialog open={formIsOpen} onClose={() => setFormIsOpen(false)}>
               <DialogContent>
                 <ClassForm
                   primaryButtonText="Update Class"
                   cohort={cohortInfo}
                   onSubmit={updateClass}
-                  isError={isError}
-                  // closemodal={() => setIsOpen(false)}
+                  isError={formStateIsError}
                 />
               </DialogContent>
             </Dialog>
@@ -134,7 +85,7 @@ const Classroom = ({ classId }) => {
             </p>
           </>
         ) : (
-          <ClassroomTemplate students={students} cohort={cohortInfo} />
+          <StudentListTable students={students} />
         )}
       </div>
     </ClassRoomContext.Provider>
