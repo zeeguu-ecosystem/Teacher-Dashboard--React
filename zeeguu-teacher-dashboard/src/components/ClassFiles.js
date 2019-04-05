@@ -79,6 +79,7 @@ const ClassFiles = () => {
     console.log('uploading...')
     uploadFiles(classData.id, filesToUpload).then(result => {
       setRefetchFiles(prev => prev + 1)
+      setFilesToUpload([])
     })
   }
 
