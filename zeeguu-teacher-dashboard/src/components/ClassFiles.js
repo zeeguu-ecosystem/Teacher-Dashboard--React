@@ -189,6 +189,10 @@ const UserInput = ({ user, refetchFiles }) => {
     uploadFiles(classData.id, [articleObj]).then(result => {
       refetchFiles()
     })
+    setState({
+      article_title: '',
+      article_content: ''
+    })
   }
 
   return (

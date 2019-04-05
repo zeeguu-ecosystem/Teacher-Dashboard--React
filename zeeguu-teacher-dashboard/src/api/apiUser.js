@@ -2,7 +2,6 @@ import { apiGet } from './apiEndpoints'
 
 export function getUserDetails() {
   const userDetails = apiGet(`/get_user_details`)
-  console.log('User details', userDetails)
   return userDetails
 }
 
@@ -19,7 +18,6 @@ export function loadUserInfo(userId, duration) {
 }
 
 export function loadUserSessions(userId, duration) {
-  console.log('hello')
   let getBookmarks = apiGet(`/cohort_member_bookmarks/${userId}/${duration}`)
   let getSessions = apiGet(
     `/cohort_member_reading_sessions/${userId}/${duration}`
