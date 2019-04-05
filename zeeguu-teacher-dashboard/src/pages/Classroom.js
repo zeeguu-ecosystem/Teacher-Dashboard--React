@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Button, Dialog, DialogContent } from '@material-ui/core'
 import {
   getGeneralCohortInfo,
@@ -9,10 +9,12 @@ import ClassForm from '../components/ClassForm'
 import ClassFiles from '../components/ClassFiles'
 import StudentListTable from '../components/StudentListTable'
 import ClassRoomContext from '../context/ClassRoomContext'
+import TimePeriodContext from '../context/TimePeriodContext'
 
 import '../assets/styles/pages/classroom.scss'
 
 const Classroom = ({ classId }) => {
+  const { timePeriod } = useContext(TimePeriodContext)
   const [cohortInfo, setCohortInfo] = useState({})
   const [students, setStudents] = useState([])
   const [classFilesIsOpen, setClassFilesIsOpen] = useState(false)
@@ -23,10 +25,10 @@ const Classroom = ({ classId }) => {
     getGeneralCohortInfo(classId).then(({ data }) => {
       setCohortInfo(data)
     })
-    getStudents(classId, 9).then(students => {
+    getStudents(classId, timePeriod).then(students => {
       setStudents(students)
     })
-  }, [])
+  }, [timePeriod])
 
   const updateClass = form => {
     setFormStateIsError(false)
