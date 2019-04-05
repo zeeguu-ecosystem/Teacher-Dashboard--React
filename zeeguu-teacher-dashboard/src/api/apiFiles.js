@@ -6,7 +6,7 @@ export function deleteArticle(classId, articleId) {
 }
 
 export function uploadFiles(classId, data) {
-  const result = apiPost(`/upload_files/${classId}`, data, false)
+  const result = apiPost(`/upload_articles/${classId}`, data, false)
   return result
 }
 
