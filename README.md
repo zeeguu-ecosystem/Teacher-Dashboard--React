@@ -6,9 +6,9 @@
 1. Configure environment variables
    - Go to the zeeguu-teacher-dashboard folder
    - Add a file with the name _.env_
-   - Add the environment variables: 'REACT*APP_ZEEGUU_API_ENDPOINT_PROD' and 'REACT_APP_ZEEGUU_API_ENDPOINT_DEV'
+   - Add the environment variables: 'REACT_APP_ZEEGUU_API_ENDPOINT_PROD' and 'REACT_APP_ZEEGUU_API_ENDPOINT_DEV'
      and assign them to the relevant endpoint.
-     eg. \_REACT_APP_ZEEGUU_API_ENDPOINT_PROD=http://localhost:9001*
+     eg. _REACT_APP_ZEEGUU_API_ENDPOINT_PROD=http://localhost:9001_
 1. In the zeeguu-teacher-dashboard folder, to install node_modules, run the command `npm install`
 
 ## To start the project in development
