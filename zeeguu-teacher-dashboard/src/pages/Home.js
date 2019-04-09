@@ -1,10 +1,9 @@
 import Tab from '@material-ui/core/Tab'
 import Tabs from '@material-ui/core/Tabs'
-import { Link } from '@reach/router'
 import React, { useEffect, useState, useContext } from 'react'
 import TimePeriodContext from '../context/TimePeriodContext'
 import { getCohortsInfo, getUsersByTeacher } from '../api/apiCohort'
-import CohortsList from '../components/CohortsList'
+import CohortList from '../components/CohortList'
 import StudentListTable from '../components/StudentListTable'
 import '../assets/styles/pages/Home.scss'
 import Teacher from '../assets/images/teacher.svg'
@@ -42,12 +41,10 @@ const Home = () => {
           <Tab label="CLASSES" />
           <Tab label="STUDENTS" />
         </Tabs>
-        {activeTab === 0 && <CohortsList cohorts={cohorts} />}
+        {activeTab === 0 && <CohortList cohorts={cohorts} />}
         {activeTab === 1 &&
           (allStudents.length ? (
-            <StudentListTable
-              students={allStudents}
-            />
+            <StudentListTable students={allStudents} />
           ) : (
             <NoStudents />
           ))}

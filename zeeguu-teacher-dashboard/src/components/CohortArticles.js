@@ -1,20 +1,23 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, Dialog, DialogContent, TextField } from '@material-ui/core'
+import { Button, TextField } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
-import { uploadFiles, deleteArticle } from '../api/apiFiles'
+import {
+  uploadArticles,
+  deleteArticle as deleteArticleAPI
+} from '../api/apiArticles'
 
 import { MdClose, MdCloudUpload } from 'react-icons/md/'
 
 import { languageMap } from '../utilities/helpers'
 
-import { getFiles } from '../api/apiFiles'
+import { getArticles } from '../api/apiArticles'
 
-import '../assets/styles/components/classFiles.scss'
-import ClassRoomContext from '../context/ClassRoomContext'
+import '../assets/styles/components/cohortArticles.scss'
+import ClassroomContext from '../context/ClassroomContext'
 import UserContext from '../context/UserContext'
 
-const readFileContent = file => {
+const readArticleContent = article => {
   const reader = new FileReader()
   return new Promise((resolve, reject) => {
     reader.onload = function(event) {
@@ -25,7 +28,7 @@ const readFileContent = file => {
     reader.onerror = function(e) {
       reject(e)
     }
-    reader.readAsText(file)
+    reader.readAsText(article)
   })
 }
 
@@ -47,69 +50,73 @@ const createArticleObject = (name, content, languageCode, user) => {
   return articleObject
 }
 
-const ClassFiles = () => {
-  const classData = useContext(ClassRoomContext)
+const CohortArticles = () => {
+  const cohortData = useContext(ClassroomContext)
   const user = useContext(UserContext)
-  const [refetchFiles, setRefetchFiles] = useState(0)
-  const [filesToUpload, setFilesToUpload] = useState([])
-  const [files, setFiles] = useState([])
+  const [refetchArticles, setRefetchArticles] = useState(0)
+  const [articlesToUpload, setArticlesToUpload] = useState([])
+  const [articles, setArticles] = useState([])
 
   useEffect(() => {
-    getFiles(classData.id).then(result => {
-      setFiles(result.data)
+    getArticles(cohortData.id).then(result => {
+      setArticles(result.data)
     })
-  }, [refetchFiles])
+  }, [refetchArticles])
 
-  const languageCode = languageMap[classData.language_name]
+  const languageCode = languageMap[cohortData.language_name]
 
-  const prepareFiles = files => {
-    const filesData = files.map(async file => {
-      const content = await readFileContent(file)
-      const object = createArticleObject(file.name, content, languageCode, user)
+  const prepareArticles = articles => {
+    const articlesData = articles.map(async article => {
+      const content = await readArticleContent(article)
+      const object = createArticleObject(
+        article.name,
+        content,
+        languageCode,
+        user
+      )
       return object
     })
-    Promise.all(filesData).then(data => {
-      console.log('files', data)
-      setFilesToUpload(data)
+    Promise.all(articlesData).then(data => {
+      console.log('articles', data)
+      setArticlesToUpload(data)
     })
   }
 
-  const onUploadFiles = e => {
+  const onUploadArticles = e => {
     e.preventDefault()
     console.log('uploading...')
-    uploadFiles(classData.id, filesToUpload).then(result => {
-      setRefetchFiles(prev => prev + 1)
-      setFilesToUpload([])
+    uploadArticles(cohortData.id, articlesToUpload).then(result => {
+      setRefetchArticles(prev => prev + 1)
+      setArticlesToUpload([])
     })
   }
 
-  const deleteFile = file => {
-    console.log('deleting...', file)
-    deleteArticle(classData.id, file.id).then(result => {
+  const deleteArticle = article => {
+    console.log('deleting...', article)
+    deleteArticleAPI(cohortData.id, article.id).then(result => {
       console.log('result', result)
-      setRefetchFiles(prev => prev + 1)
+      setRefetchArticles(prev => prev + 1)
     })
   }
 
   return (
-    <div className="file-manager">
-      <h2>Manage files</h2>
-      <FileList files={files} deleteFile={deleteFile} />
-      {/* <div className="user-upload"> */}
+    <div className="article-manager">
+      <h2>Manage articles</h2>
+      <ArticleList articles={articles} deleteArticle={deleteArticle} />
       <div style={{ marginBottom: '20px' }}>
         <Dropzone
           accept={['.txt']}
-          onDrop={acceptedFiles => prepareFiles(acceptedFiles)}
+          onDrop={acceptedArticles => prepareArticles(acceptedArticles)}
         >
           {({ getRootProps, getInputProps }) => (
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <div className="drop-files">
-                  {filesToUpload.length ? (
+                <div className="drop-articles">
+                  {articlesToUpload.length ? (
                     <ul>
-                      {filesToUpload.map(file => (
-                        <li key={file.title}>{file.title}</li>
+                      {articlesToUpload.map(article => (
+                        <li key={article.title}>{article.title}</li>
                       ))}
                     </ul>
                   ) : (
@@ -122,9 +129,9 @@ const ClassFiles = () => {
             </section>
           )}
         </Dropzone>
-        {filesToUpload.length ? (
+        {articlesToUpload.length ? (
           <Button
-            onClick={onUploadFiles}
+            onClick={onUploadArticles}
             variant="contained"
             color="default"
             style={{ marginTop: 10 }}
@@ -136,23 +143,23 @@ const ClassFiles = () => {
       </div>
 
       <UserInput
-        refetchFiles={() => setRefetchFiles(prev => prev + 1)}
+        refetchArticles={() => setRefetchArticles(prev => prev + 1)}
         user={user}
       />
     </div>
   )
 }
 
-const FileList = ({ files, deleteFile }) => {
+const ArticleList = ({ articles, deleteArticle }) => {
   return (
-    <div className="file-list">
-      <h4>File list</h4>
+    <div className="article-list">
+      <h4>Article list</h4>
       <ul>
-        {files.map(file => {
+        {articles.map(article => {
           return (
-            <li className="file" key={file.id}>
-              <p>{file.title}</p>
-              <MdClose size="22px" onClick={() => deleteFile(file)} />
+            <li className="article" key={article.id}>
+              <p>{article.title}</p>
+              <MdClose size="22px" onClick={() => deleteArticle(article)} />
             </li>
           )
         })}
@@ -161,9 +168,9 @@ const FileList = ({ files, deleteFile }) => {
   )
 }
 
-const UserInput = ({ user, refetchFiles }) => {
-  const classData = useContext(ClassRoomContext)
-  const languageCode = languageMap[classData.language_name]
+const UserInput = ({ user, refetchArticles }) => {
+  const cohortData = useContext(ClassroomContext)
+  const languageCode = languageMap[cohortData.language_name]
 
   const [state, setState] = useState({
     article_title: '',
@@ -186,8 +193,8 @@ const UserInput = ({ user, refetchFiles }) => {
       user
     )
     console.log('submitting', articleObj)
-    uploadFiles(classData.id, [articleObj]).then(result => {
-      refetchFiles()
+    uploadArticles(cohortData.id, [articleObj]).then(result => {
+      refetchArticles()
     })
     setState({
       article_title: '',
@@ -234,4 +241,4 @@ const UserInput = ({ user, refetchFiles }) => {
   )
 }
 
-export default ClassFiles
+export default CohortArticles

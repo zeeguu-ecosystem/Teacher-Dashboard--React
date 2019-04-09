@@ -63,7 +63,6 @@ const StudentListTable = ({ students }) => {
   ]
 
   const bodyItems = students.map(student => {
-    console.log('learning props', student.learning_proportion)
     return {
       data: [
         {

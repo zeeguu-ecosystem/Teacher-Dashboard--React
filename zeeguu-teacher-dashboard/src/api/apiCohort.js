@@ -12,8 +12,8 @@ export function updateCohort(data, id) {
   return apiPost(`/update_cohort/${id}`, data, true)
 }
 
-export function getStudents(classId, duration) {
-  const result = apiGet(`/users_from_cohort/${classId}/${duration}`).then(
+export function getStudents(cohortId, duration) {
+  const result = apiGet(`/users_from_cohort/${cohortId}/${duration}`).then(
     ({ data }) => transformStudents(data)
   )
   return result
@@ -26,8 +26,8 @@ export async function getUsersByTeacher(duration) {
   return result
 }
 
-export function getGeneralCohortInfo(classId) {
-  return apiGet(`/cohort_info/${classId}`)
+export function getGeneralCohortInfo(cohortId) {
+  return apiGet(`/cohort_info/${cohortId}`)
 }
 
 export function getCohortsInfo() {

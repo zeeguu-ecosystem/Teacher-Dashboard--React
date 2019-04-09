@@ -55,7 +55,7 @@ function filterUserBookmarks(data) {
 
 function transformUserBookmarks(data) {
   let masterList = []
-  data.map(day => {
+  data.forEach(day => {
     let masterElement = {}
     masterElement.date = day.date
     masterElement['article_list'] = []

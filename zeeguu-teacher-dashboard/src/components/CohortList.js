@@ -3,8 +3,8 @@ import { Link } from '@reach/router'
 import React, { useState } from 'react'
 import { MdAddCircle, MdArrowForward, MdPeople } from 'react-icons/md/'
 import { createCohort } from '../api/apiCohort'
-import ClassForm from './ClassForm'
-import '../assets/styles/components/cohortsList.scss'
+import CohortForm from './CohortForm'
+import '../assets/styles/components/cohortList.scss'
 
 const CohortItem = ({ cohort }) => {
   return (
@@ -33,11 +33,11 @@ const CohortItem = ({ cohort }) => {
   )
 }
 
-const CohortsList = ({ cohorts }) => {
+const CohortList = ({ cohorts }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isError, setIsError] = useState(false)
 
-  const addClass = form => {
+  const addCohort = form => {
     setIsError(false)
     createCohort(form)
       .then(result => {
@@ -65,9 +65,9 @@ const CohortsList = ({ cohorts }) => {
       </Button>
       <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
         <DialogContent>
-          <ClassForm
+          <CohortForm
             primaryButtonText="Create Class"
-            onSubmit={addClass}
+            onSubmit={addCohort}
             isError={isError}
           />
         </DialogContent>
@@ -75,4 +75,4 @@ const CohortsList = ({ cohorts }) => {
     </div>
   )
 }
-export default CohortsList
+export default CohortList

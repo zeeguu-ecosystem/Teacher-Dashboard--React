@@ -5,38 +5,38 @@ import {
   getStudents,
   updateCohort
 } from '../api/apiCohort'
-import ClassForm from '../components/ClassForm'
-import ClassFiles from '../components/ClassFiles'
+import CohortForm from '../components/CohortForm'
+import CohortArticles from '../components/CohortArticles'
 import StudentListTable from '../components/StudentListTable'
-import ClassRoomContext from '../context/ClassRoomContext'
+import ClassroomContext from '../context/ClassroomContext'
 import TimePeriodContext from '../context/TimePeriodContext'
 
 import '../assets/styles/pages/classroom.scss'
 
-const Classroom = ({ classId }) => {
+const Classroom = ({ cohortId }) => {
   const { timePeriod } = useContext(TimePeriodContext)
   const [cohortInfo, setCohortInfo] = useState({})
   const [students, setStudents] = useState([])
-  const [classFilesIsOpen, setClassFilesIsOpen] = useState(false)
+  const [cohortArticlesIsOpen, setCohortArticlesIsOpen] = useState(false)
   const [formIsOpen, setFormIsOpen] = useState(false)
   const [formStateIsError, setFormStateIsError] = useState(false)
 
   useEffect(() => {
-    getGeneralCohortInfo(classId).then(({ data }) => {
+    getGeneralCohortInfo(cohortId).then(({ data }) => {
       setCohortInfo(data)
     })
-    getStudents(classId, timePeriod).then(students => {
+    getStudents(cohortId, timePeriod).then(students => {
       setStudents(students)
     })
   }, [timePeriod])
 
-  const updateClass = form => {
+  const updateCohort = form => {
     setFormStateIsError(false)
-    updateCohort(form, classId)
+    updateCohort(form, cohortId)
       .then(result => {
         setTimeout(() => {
           setFormIsOpen(false)
-          getGeneralCohortInfo(classId).then(({ data }) => {
+          getGeneralCohortInfo(cohortId).then(({ data }) => {
             setCohortInfo(data)
           })
         }, 2000)
@@ -45,7 +45,7 @@ const Classroom = ({ classId }) => {
   }
 
   return (
-    <ClassRoomContext.Provider value={cohortInfo}>
+    <ClassroomContext.Provider value={cohortInfo}>
       <div className="page-classroom">
         <div className="page-classroom__header">
           <div className="page-classroom__title">
@@ -58,11 +58,11 @@ const Classroom = ({ classId }) => {
             <p>Invite code: {cohortInfo.inv_code}</p>
           </div>
           <div>
-            {/* <ClassFiles /> */}
+            {/* Cohort Articles */}
             <Button
               color="secondary"
               variant="contained"
-              onClick={() => setClassFilesIsOpen(true)}
+              onClick={() => setCohortArticlesIsOpen(true)}
             >
               Manage Files
             </Button>
@@ -81,23 +81,23 @@ const Classroom = ({ classId }) => {
               maxWidth={'sm'}
             >
               <DialogContent>
-                <ClassForm
+                <CohortForm
                   primaryButtonText="Update Class"
                   cohort={cohortInfo}
-                  onSubmit={updateClass}
+                  onSubmit={updateCohort}
                   isError={formStateIsError}
                 />
               </DialogContent>
             </Dialog>
             {/* File management dialog */}
             <Dialog
-              open={classFilesIsOpen}
-              onClose={() => setClassFilesIsOpen(false)}
+              open={cohortArticlesIsOpen}
+              onClose={() => setCohortArticlesIsOpen(false)}
               fullWidth
               maxWidth={'sm'}
             >
               <DialogContent>
-                <ClassFiles />
+                <CohortArticles />
               </DialogContent>
             </Dialog>
           </div>
@@ -114,7 +114,7 @@ const Classroom = ({ classId }) => {
           <StudentListTable students={students} />
         )}
       </div>
-    </ClassRoomContext.Provider>
+    </ClassroomContext.Provider>
   )
 }
 

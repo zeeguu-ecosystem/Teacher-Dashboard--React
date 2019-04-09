@@ -12,16 +12,16 @@ import { navigate } from '@reach/router'
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
-import { deleteCohort } from '../api/apiCohort'
+import { deleteCohort as deleteCohortAPI } from '../api/apiCohort'
 import { languageMap } from '../utilities/helpers'
 
-const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
+const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   const [isLoading, setIsLoading] = useState(false)
   const inputLabelRef = React.useRef(null)
 
   const [state, setState] = useState({
     id: cohort ? cohort.id : '',
-    class_name: cohort ? cohort.name : '',
+    cohort_name: cohort ? cohort.name : '',
     invite_code: cohort ? cohort.inv_code : '',
     language_id: cohort ? languageMap[cohort.language_name] : 'es',
     max_students: cohort ? cohort.max_students : 20,
@@ -44,7 +44,7 @@ const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
 
   function setupForm() {
     const form = new FormData()
-    form.append('name', state.class_name)
+    form.append('name', state.cohort_name)
     form.append('inv_code', state.invite_code)
     form.append('max_students', state.max_students)
     form.append('language_id', state.language_id)
@@ -63,10 +63,10 @@ const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
       <MySnackbar />
       <form onSubmit={submitForm} style={{ display: 'flex', flexWrap: 'wrap' }}>
         <TextField
-          value={state.class_name}
+          value={state.cohort_name}
           onChange={handleChange}
-          name="class_name"
-          id="class_name"
+          name="cohort_name"
+          id="cohort_name"
           label="Name of class"
           fullWidth
           type="text"
@@ -129,7 +129,7 @@ const ClassForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
           {isLoading ? <SpringSpinner size={24} /> : primaryButtonText}
         </Button>
       </form>
-      {cohort && <DangerZone id={cohort.id} />}
+      {cohort && <DangerZone cohortId={cohort.id} />}
     </div>
   )
 }
@@ -191,12 +191,12 @@ const Error = ({ setLoading }) => {
   )
 }
 
-const DangerZone = ({ id }) => {
+const DangerZone = ({ cohortId }) => {
   const [isDeleting, setIsDeleting] = useState(false)
 
-  function deleteClass(id) {
+  function deleteCohort(cohortId) {
     setIsDeleting(true)
-    deleteCohort(id)
+    deleteCohortAPI(cohortId)
       .then(() => setTimeout(() => navigate('/'), 2000))
       .catch(err => console.log('failed to delete class', err))
   }
@@ -207,7 +207,7 @@ const DangerZone = ({ id }) => {
       <p>Press the button to delete the class. The class must be empty. </p>
       <Button
         style={{ marginTop: 10 }}
-        onClick={() => deleteClass(id)}
+        onClick={() => deleteCohort(cohortId)}
         variant="contained"
         color="secondary"
       >
@@ -217,4 +217,4 @@ const DangerZone = ({ id }) => {
   )
 }
 
-export default ClassForm
+export default CohortForm

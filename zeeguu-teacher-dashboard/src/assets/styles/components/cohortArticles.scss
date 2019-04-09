@@ -1,10 +1,10 @@
 @import '../shared.scss';
 
-.file-list {
+.article-list {
   margin-bottom: 40px;
 }
 
-.file {
+.article {
   display: flex;
   align-items: center;
 }
@@ -13,7 +13,7 @@
   margin-bottom: 20px;
 }
 
-.drop-files {
+.drop-articles {
   display: flex;
   justify-content: center;
   align-items: center;

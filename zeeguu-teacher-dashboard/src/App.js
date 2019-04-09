@@ -35,7 +35,7 @@ const App = () => {
               <Nav />
               <Router>
                 <Home path="/" />
-                <Classroom path="classroom/:classId" />
+                <Classroom path="classroom/:cohortId" />
                 <StudentPage path="student/:studentId" />
               </Router>
             </div>
