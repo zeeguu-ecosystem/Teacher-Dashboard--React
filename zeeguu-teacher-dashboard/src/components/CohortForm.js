@@ -4,8 +4,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
-  SnackbarContent,
   TextField
 } from '@material-ui/core'
 import { navigate } from '@reach/router'
@@ -60,7 +58,6 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
 
   return (
     <div>
-      <MySnackbar />
       <form onSubmit={submitForm} style={{ display: 'flex', flexWrap: 'wrap' }}>
         <TextField
           value={state.cohort_name}
@@ -130,54 +127,6 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
         </Button>
       </form>
       {cohort && <DangerZone cohortId={cohort.id} />}
-    </div>
-  )
-}
-
-const MySnackbar = () => {
-  const [open, setOpen] = React.useState(false)
-
-  function handleClick() {
-    setOpen(true)
-  }
-
-  function handleClose(event, reason) {
-    if (reason === 'clickaway') {
-      return
-    }
-
-    setOpen(false)
-  }
-
-  return (
-    <div>
-      <Button onClick={handleClick}>Open simple snackbar</Button>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left'
-        }}
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-      >
-        <SnackbarContent
-          style={{ backgroundColor: 'green' }}
-          aria-describedby="client-snackbar"
-          message={
-            <span
-              id="client-snackbar"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                color: 'white'
-              }}
-            >
-              Test hello
-            </span>
-          }
-        />
-      </Snackbar>
     </div>
   )
 }
