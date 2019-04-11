@@ -41,11 +41,9 @@ const CohortList = ({ cohorts }) => {
     setIsError(false)
     createCohort(form)
       .then(result => {
-        setTimeout(() => {
-          setIsOpen(false)
-          // setIsError(false)
-          // todo: refresh the UI
-        }, 2000)
+        setIsOpen(false)
+        // setIsError(false)
+        // todo: refresh the UI
       })
       .catch(err => setIsError(true))
   }

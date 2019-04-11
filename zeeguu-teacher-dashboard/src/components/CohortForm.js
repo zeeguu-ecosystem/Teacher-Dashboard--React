@@ -197,7 +197,7 @@ const DangerZone = ({ cohortId }) => {
   function deleteCohort(cohortId) {
     setIsDeleting(true)
     deleteCohortAPI(cohortId)
-      .then(() => setTimeout(() => navigate('/'), 2000))
+      .then(() => navigate('/'), 2000)
       .catch(err => console.log('failed to delete class', err))
   }
 

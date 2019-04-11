@@ -34,12 +34,10 @@ const Classroom = ({ cohortId }) => {
     setFormStateIsError(false)
     updateCohort(form, cohortId)
       .then(result => {
-        setTimeout(() => {
-          setFormIsOpen(false)
-          getGeneralCohortInfo(cohortId).then(({ data }) => {
-            setCohortInfo(data)
-          })
-        }, 2000)
+        setFormIsOpen(false)
+        getGeneralCohortInfo(cohortId).then(({ data }) => {
+          setCohortInfo(data)
+        })
       })
       .catch(err => setFormStateIsError(true))
   }
