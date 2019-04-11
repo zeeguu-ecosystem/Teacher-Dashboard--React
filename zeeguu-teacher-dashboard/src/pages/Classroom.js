@@ -58,6 +58,7 @@ const Classroom = ({ cohortId }) => {
           <div>
             {/* Cohort Articles */}
             <Button
+              style={{ marginRight: 10 }}
               color="secondary"
               variant="contained"
               onClick={() => setCohortArticlesIsOpen(true)}
