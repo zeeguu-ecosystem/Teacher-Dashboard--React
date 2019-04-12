@@ -1,0 +1,35 @@
+@import '../shared';
+
+.student-page {
+  text-align: left;
+}
+.student-activity-item-heading {
+  font-size: $font-size-medium;
+  color: $color-text-primary-light;
+}
+.student-activity-item-duration {
+  font-size: $font-size-medium;
+  // background: blue;
+  margin-left: auto;
+}
+.student-activity-subheading {
+  flex-basis: 43%;
+  flex-shrink: 0;
+}
+.student-page-bookmark-compound {
+  margin-bottom: 30px;
+}
+.student-page-bookmarks {
+  margin-left: calc(4 * #{$spacing-unit});
+  // margin-top: calc(2 * #{$spacing-unit});
+}
+
+.student-page-bookmark-from {
+  font-weight: $font-weight-bold;
+  color: $color-text-primary-light;
+}
+
+.student-page-translation-arrow {
+  position: relative;
+  top: 7px;
+}
