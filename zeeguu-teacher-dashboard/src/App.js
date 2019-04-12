@@ -34,9 +34,15 @@ const App = () => {
             <div>
               <Nav />
               <Router>
-                <Home path="/" />
-                <Classroom path="classroom/:cohortId" />
-                <StudentPage path="student/:studentId" />
+                <Home path={`/${process.env.REACT_APP_ROOT_NAME}`} />
+                <Classroom
+                  path={`/${
+                    process.env.REACT_APP_ROOT_NAME
+                  }/classroom/:cohortId`}
+                />
+                <StudentPage
+                  path={`/${process.env.REACT_APP_ROOT_NAME}/student/:studentId`}
+                />
               </Router>
             </div>
           ) : (

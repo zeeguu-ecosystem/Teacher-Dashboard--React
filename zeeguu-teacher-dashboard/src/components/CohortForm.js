@@ -146,7 +146,7 @@ const DangerZone = ({ cohortId }) => {
   function deleteCohort(cohortId) {
     setIsDeleting(true)
     deleteCohortAPI(cohortId)
-      .then(() => navigate('/'), 2000)
+      .then(() => navigate(`/${process.env.REACT_APP_ROOT_NAME}`), 2000)
       .catch(err => console.log('failed to delete class', err))
   }
 

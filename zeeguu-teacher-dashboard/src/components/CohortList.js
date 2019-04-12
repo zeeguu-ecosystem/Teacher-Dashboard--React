@@ -23,7 +23,7 @@ const CohortItem = ({ cohort }) => {
           variant="contained"
           color="primary"
           component={Link}
-          to={`/classroom/${cohort.id}`}
+          to={`/${process.env.REACT_APP_ROOT_NAME}/classroom/${cohort.id}`}
         >
           View class
           <MdArrowForward className="cohort-card-btn-arrow" size="18px" />
