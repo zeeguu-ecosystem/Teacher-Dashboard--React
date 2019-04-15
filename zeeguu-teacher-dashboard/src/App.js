@@ -1,6 +1,8 @@
 import { Router } from '@reach/router'
 
 import React, { useState, useEffect } from 'react'
+import { useCookie } from '@use-hook/use-cookie'
+
 import './assets/styles/App.scss'
 
 import Nav from './components/Nav'
@@ -17,6 +19,7 @@ import { getUserDetails } from './api/apiUser'
 import { useAuthentication } from './utilities/permissions'
 
 const App = () => {
+  // const [timePeriod, setTimePeriod] = useCookie('timeperiod', 30)
   const [timePeriod, setTimePeriod] = useState(14)
   const { loadingAuth, isAuthenticated } = useAuthentication()
   const [userDetails, setUserDetails] = useState({})
