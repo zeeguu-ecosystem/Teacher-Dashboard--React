@@ -12,17 +12,21 @@
   font-size: $font-size-medium;
   color: $color-text-primary-light;
 }
+
 .student-activity-item-duration {
   font-size: $font-size-medium;
   margin-left: auto;
 }
+
 .student-activity-subheading {
   flex-basis: 43%;
   flex-shrink: 0;
 }
+
 .student-page-bookmark-compound {
   margin-bottom: 30px;
 }
+
 .student-page-bookmarks {
   margin-left: calc(4 * #{$spacing-unit});
 }
