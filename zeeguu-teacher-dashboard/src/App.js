@@ -1,7 +1,6 @@
 import { Router } from '@reach/router'
 
 import React, { useState, useEffect } from 'react'
-import { useCookie } from '@use-hook/use-cookie'
 
 import './assets/styles/App.scss'
 
@@ -13,14 +12,15 @@ import NotLoggedInPage from './pages/NotLoggedInPage'
 
 import TimePeriodContext from './context/TimePeriodContext'
 import UserContext from './context/UserContext'
+import {useCookie} from './utilities/hooks'
 
 import { getUserDetails } from './api/apiUser'
-
 import { useAuthentication } from './utilities/permissions'
 
+
 const App = () => {
-  // const [timePeriod, setTimePeriod] = useCookie('timeperiod', 30)
-  const [timePeriod, setTimePeriod] = useState(14)
+  const [timePeriod, setTimePeriod] = useCookie('timeperiod', 30)
+
   const { loadingAuth, isAuthenticated } = useAuthentication()
   const [userDetails, setUserDetails] = useState({})
 
@@ -44,7 +44,9 @@ const App = () => {
                   }/classroom/:cohortId`}
                 />
                 <StudentPage
-                  path={`/${process.env.REACT_APP_ROOT_NAME}/student/:studentId`}
+                  path={`/${
+                    process.env.REACT_APP_ROOT_NAME
+                  }/student/:studentId`}
                 />
               </Router>
             </div>

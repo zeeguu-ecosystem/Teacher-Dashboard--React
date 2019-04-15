@@ -30,51 +30,60 @@ const StudentActivity = ({ studentId }) => {
   }, [timePeriod])
   return (
     <div className="student-page">
-      {articlesByDate.map((day, index) => (
-        <div key={index}>
-          <p>{day.date}</p>
-          {day.reading_sessions.map((readingSession, index) => (
-            <ExpansionPanel key={index}>
-              <ExpansionPanelSummary expandIcon={<MdExpandMore />}>
-                <h2 className="student-activity-item-heading">
-                  {readingSession.article_title}
-                </h2>
-                <p className="student-activity-item-duration">
-                  {secondsToHoursAndMinutes(readingSession.duration / 1000)}
-                </p>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column'
-                }}
-              >
-                {readingSession.bookmarks.sentence_list.map(
-                  (sentence, index) => (
-                    <div className="student-page-bookmark-compound" key={index}>
-                      {sentence.context}
-                      <div className="student-page-bookmarks">
-                        {sentence.bookmarks.map(bookmark => (
-                          <p key={bookmark.id}>
-                            <span className="student-page-bookmark-from">
-                              {bookmark.from}
-                            </span>{' '}
-                            <MdKeyboardArrowRight
-                              className="student-page-translation-arrow"
-                              size="24"
-                            />{' '}
-                            {bookmark.to}{' '}
-                          </p>
-                        ))}
+      {articlesByDate.length === 0 ? (
+        <p style={{ textAlign: 'center' }}>
+          The student has not read any articles yet
+        </p>
+      ) : (
+        articlesByDate.map((day, index) => (
+          <div className="student-activity" key={index}>
+            <p>{day.date}</p>
+            {day.reading_sessions.map((readingSession, index) => (
+              <ExpansionPanel key={index}>
+                <ExpansionPanelSummary expandIcon={<MdExpandMore />}>
+                  <h2 className="student-activity-item-heading">
+                    {readingSession.article_title}
+                  </h2>
+                  <p className="student-activity-item-duration">
+                    {secondsToHoursAndMinutes(readingSession.duration / 1000)}
+                  </p>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column'
+                  }}
+                >
+                  {readingSession.bookmarks.sentence_list.map(
+                    (sentence, index) => (
+                      <div
+                        className="student-page-bookmark-compound"
+                        key={index}
+                      >
+                        {sentence.context}
+                        <div className="student-page-bookmarks">
+                          {sentence.bookmarks.map(bookmark => (
+                            <p key={bookmark.id}>
+                              <span className="student-page-bookmark-from">
+                                {bookmark.from}
+                              </span>{' '}
+                              <MdKeyboardArrowRight
+                                className="student-page-translation-arrow"
+                                size="24"
+                              />{' '}
+                              {bookmark.to}{' '}
+                            </p>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )
-                )}
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          ))}
-        </div>
-      ))}
+                    )
+                  )}
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            ))}
+          </div>
+        ))
+      )}
     </div>
   )
 }

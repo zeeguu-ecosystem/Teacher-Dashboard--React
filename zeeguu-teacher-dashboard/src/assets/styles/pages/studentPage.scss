@@ -3,13 +3,17 @@
 .student-page {
   text-align: left;
 }
+
+.student-activity {
+  margin-bottom: 25px;
+}
+
 .student-activity-item-heading {
   font-size: $font-size-medium;
   color: $color-text-primary-light;
 }
 .student-activity-item-duration {
   font-size: $font-size-medium;
-  // background: blue;
   margin-left: auto;
 }
 .student-activity-subheading {
@@ -21,7 +25,6 @@
 }
 .student-page-bookmarks {
   margin-left: calc(4 * #{$spacing-unit});
-  // margin-top: calc(2 * #{$spacing-unit});
 }
 
 .student-page-bookmark-from {
