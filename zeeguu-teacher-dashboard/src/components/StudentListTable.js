@@ -92,7 +92,10 @@ const StudentListTable = ({ students }) => {
         }
       ],
       renderComponent: props => (
-        <Link to={'/student/' + student.id} {...props} />
+        <Link
+          to={`/${process.env.REACT_APP_ROOT_NAME}/student/${student.id}`}
+          {...props}
+        />
       )
     }
   })

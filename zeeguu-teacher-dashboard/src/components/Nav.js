@@ -9,7 +9,7 @@ import '../assets/styles/components/nav.scss'
 const Nav = () => (
   <nav>
     <div className="navigation__links">
-      <Link to="/">
+      <Link to={`${process.env.REACT_APP_ROOT_NAME}`}>
         <img src={Logo} alt="" className="logo" />
         <p className="link-text"> Zeeguu Teacher Dashboard</p>
       </Link>

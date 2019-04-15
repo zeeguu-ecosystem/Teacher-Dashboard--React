@@ -1,8 +1,9 @@
 @import '../shared';
 .cohorts-list {
   display: grid;
-  grid-column-gap: $spacing-unit;
-  grid-row-gap: calc(2 * #{$spacing-unit});
+  grid-gap: calc(4 * #{$spacing-unit});
+  // grid-column-gap: $spacing-unit;
+  // grid-row-gap: calc(2 * #{$spacing-unit});
   grid-template-columns: 1fr 1fr;
 }
 
@@ -13,7 +14,6 @@
   display: flex;
   position: relative;
   flex-direction: column;
-  width: 400px;
   padding: calc(4 * #{$spacing-unit});
 
   & > * {
@@ -45,7 +45,6 @@
 }
 
 .cohort-card-headline {
-  width: 75%;
   margin-top: -4px;
   height: 80px;
 }
