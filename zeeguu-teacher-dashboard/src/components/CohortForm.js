@@ -133,7 +133,7 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
 
 const Error = ({ setLoading }) => {
   setLoading(false)
-  return <p style={{ color: 'red' }}>Something went wrong.</p>
+  return <p style={{ color: 'red', width: '100%' }}>Something went wrong.</p>
 }
 
 const DangerZone = ({ cohortId }) => {

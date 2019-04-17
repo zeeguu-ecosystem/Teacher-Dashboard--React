@@ -1,12 +1,17 @@
 @import '../shared.scss';
 
-.article-list {
+.article-list-container {
   margin-bottom: 40px;
 }
 
-.article {
+.article-list {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+}
+
+.article {
+  margin-right: 5px;
+  margin-bottom: 10px;
 }
 
 .user-upload {

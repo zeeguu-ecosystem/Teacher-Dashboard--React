@@ -1,7 +1,7 @@
 import { apiGet, apiPost } from './apiEndpoints'
 
-export function deleteArticle(cohortId, articleId) {
-  const result = apiPost(`/delete_article/${cohortId}/${articleId}`)
+export function deleteArticleFromCohort(cohortId, articleId) {
+  const result = apiPost(`/remove_article_from_cohort/${cohortId}/${articleId}`)
   return result
 }
 
