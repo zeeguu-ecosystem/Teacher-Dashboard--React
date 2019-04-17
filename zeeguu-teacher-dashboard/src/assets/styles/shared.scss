@@ -3,8 +3,7 @@ $color-text-primary-dark: #22292f;
 $color-text-primary-light: #4d4d4d;
 $color-text-light: #414141;
 $color-text-contrast: white;
-$color-primary: #00ad9f;
-$color-primary-hover: #00c2b2;
+$color-primary: #4800a0;
 $color-secondary: blue;
 $color-link: #2196f3;
 $color-exercises: #ffa58f;
@@ -25,6 +24,13 @@ $font-size-small: 16px;
 $content-width-max: 900px;
 $spacing-unit: 5px;
 
+$spinner-size-large: 60;
+
 //--------------- FONTS ------------
 $font-primary: 'Roboto', sans-serif;
 $font-weight-bold: 700;
+
+:export {
+  colorPrimary: $color-primary;
+  spinnerSizeLarge: $spinner-size-large;
+}

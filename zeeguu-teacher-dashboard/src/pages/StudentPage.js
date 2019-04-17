@@ -7,15 +7,20 @@ import { MdExpandMore, MdKeyboardArrowRight } from 'react-icons/md/'
 import React, { useEffect, useState, useContext } from 'react'
 import { loadUserSessions, loadUserInfo } from '../api/apiUser'
 import '../assets/styles/pages/studentPage.scss'
+import shared from '../assets/styles/shared.scss'
 import { secondsToHoursAndMinutes } from '../utilities/helpers'
 import TimePeriodContext from '../context/TimePeriodContext'
+import { SpringSpinner } from 'react-epic-spinners'
 
 const StudentActivity = ({ studentId }) => {
   const { timePeriod } = useContext(TimePeriodContext)
   const [articlesByDate, setArticlesByDate] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
   const [totalArticlesCount, setTotalArticlesCount] = useState(0)
   const [userInfo, setUserInfo] = useState({})
+
   useEffect(() => {
+    setIsLoading(true)
     loadUserSessions(studentId, timePeriod).then(result => {
       let totalArticlesCount = 0
       result.forEach(day => {
@@ -23,6 +28,7 @@ const StudentActivity = ({ studentId }) => {
       })
       setArticlesByDate(result)
       setTotalArticlesCount(totalArticlesCount)
+      setIsLoading(false)
     })
     loadUserInfo(studentId, timePeriod).then(({ data }) => {
       setUserInfo(data)
@@ -30,7 +36,15 @@ const StudentActivity = ({ studentId }) => {
   }, [timePeriod])
   return (
     <div className="student-page">
-      {articlesByDate.length === 0 ? (
+      {isLoading ? (
+        <div>
+          <SpringSpinner
+            className="spinner-centered"
+            color={shared.colorPrimary}
+            size={Number(shared.spinnerSizeLarge)}
+          />
+        </div>
+      ) : articlesByDate.length === 0 ? (
         <p style={{ textAlign: 'center' }}>
           The student has not read any articles yet
         </p>

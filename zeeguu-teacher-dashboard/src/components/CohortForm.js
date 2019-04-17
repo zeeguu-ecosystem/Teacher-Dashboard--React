@@ -7,7 +7,7 @@ import {
   TextField
 } from '@material-ui/core'
 import { navigate } from '@reach/router'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
 import { deleteCohort as deleteCohortAPI } from '../api/apiCohort'
@@ -26,7 +26,7 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
     labelWidth: 0
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     setState({
       ...state,
       labelWidth: ReactDOM.findDOMNode(inputLabelRef.current).offsetWidth
@@ -133,11 +133,7 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
 
 const Error = ({ setLoading }) => {
   setLoading(false)
-  return (
-    <p style={{ color: 'red' }}>
-      A class with that invite code already exists. Please pick another one.
-    </p>
-  )
+  return <p style={{ color: 'red' }}>Something went wrong.</p>
 }
 
 const DangerZone = ({ cohortId }) => {
