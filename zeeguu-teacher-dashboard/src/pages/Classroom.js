@@ -8,6 +8,7 @@ import {
 import CohortForm from '../components/CohortForm'
 import CohortArticles from '../components/CohortArticles'
 import StudentListTable from '../components/StudentListTable'
+import NoStudents from '../components/NoStudents'
 import ClassroomContext from '../context/ClassroomContext'
 import TimePeriodContext from '../context/TimePeriodContext'
 
@@ -103,10 +104,10 @@ const Classroom = ({ cohortId }) => {
         </div>
         {students.length === 0 ? (
           <>
-            <p> This class has no students</p>
-            <p>
+            <NoStudents />
+            <p style={{ fontSize: '32px' }}>
               Students can join this class by using the invite code:{' '}
-              {cohortInfo.inv_code}
+              <span style={{ fontWeight: 'bold' }}>{cohortInfo.inv_code}</span>
             </p>
           </>
         ) : (
