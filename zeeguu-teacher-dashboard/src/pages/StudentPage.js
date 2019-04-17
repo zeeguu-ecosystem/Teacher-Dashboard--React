@@ -37,13 +37,11 @@ const StudentActivity = ({ studentId }) => {
   return (
     <div className="student-page">
       {isLoading ? (
-        <div>
-          <SpringSpinner
-            className="spinner-centered"
-            color={shared.colorPrimary}
-            size={Number(shared.spinnerSizeLarge)}
-          />
-        </div>
+        <SpringSpinner
+          className="spinner-centered"
+          color={shared.colorPrimary}
+          size={Number(shared.spinnerSizeLarge)}
+        />
       ) : articlesByDate.length === 0 ? (
         <p style={{ textAlign: 'center' }}>
           The student has not read any articles yet

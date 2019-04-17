@@ -12,21 +12,26 @@ import ClassroomContext from '../context/ClassroomContext'
 import TimePeriodContext from '../context/TimePeriodContext'
 
 import '../assets/styles/pages/classroom.scss'
+import shared from '../assets/styles/shared.scss'
+import { SpringSpinner } from 'react-epic-spinners'
 
 const Classroom = ({ cohortId }) => {
   const { timePeriod } = useContext(TimePeriodContext)
   const [cohortInfo, setCohortInfo] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
   const [students, setStudents] = useState([])
   const [cohortArticlesIsOpen, setCohortArticlesIsOpen] = useState(false)
   const [formIsOpen, setFormIsOpen] = useState(false)
   const [formStateIsError, setFormStateIsError] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     getGeneralCohortInfo(cohortId).then(({ data }) => {
       setCohortInfo(data)
     })
     getStudents(cohortId, timePeriod).then(students => {
       setStudents(students)
+      setIsLoading(false)
     })
   }, [timePeriod])
 
@@ -101,7 +106,13 @@ const Classroom = ({ cohortId }) => {
             </Dialog>
           </div>
         </div>
-        {students.length === 0 ? (
+        {isLoading ? (
+          <SpringSpinner
+            className="spinner-centered"
+            color={shared.colorPrimary}
+            size={Number(shared.spinnerSizeLarge)}
+          />
+        ) : students.length === 0 ? (
           <>
             <p> This class has no students</p>
             <p>
