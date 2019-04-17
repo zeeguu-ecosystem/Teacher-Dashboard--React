@@ -3,15 +3,17 @@ import Tabs from '@material-ui/core/Tabs'
 import React, { useEffect, useState, useContext } from 'react'
 import TimePeriodContext from '../context/TimePeriodContext'
 import { getCohortsInfo, getUsersByTeacher } from '../api/apiCohort'
+import NoStudents from '../components/NoStudents'
 import CohortList from '../components/CohortList'
 import StudentListTable from '../components/StudentListTable'
 import '../assets/styles/pages/Home.scss'
-import Teacher from '../assets/images/teacher.svg'
 
 const Home = () => {
   const [cohorts, setCohortsInfo] = useState([])
-  const [activeTab, setActiveTag] = useState(0)
+  const [activeTab, setActiveTab] = useState(0)
   const [allStudents, setAllStudents] = useState([])
+  const [refetchCohorts, setRefetchCohorts] = useState(0)
+
   const { timePeriod } = useContext(TimePeriodContext)
 
   useEffect(() => {
@@ -24,10 +26,10 @@ const Home = () => {
     getCohortsInfo().then(({ data }) => {
       setCohortsInfo(data)
     })
-  }, [])
+  }, [refetchCohorts])
 
   const handleChange = (event, value) => {
-    setActiveTag(value)
+    setActiveTab(value)
   }
   return (
     <div className="page-home">
@@ -37,11 +39,14 @@ const Home = () => {
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="secondary"
+          style={{ marginBottom: '10px' }}
         >
           <Tab label="CLASSES" />
           <Tab label="STUDENTS" />
         </Tabs>
-        {activeTab === 0 && <CohortList cohorts={cohorts} />}
+        {activeTab === 0 && (
+          <CohortList refetch={setRefetchCohorts} cohorts={cohorts} />
+        )}
         {activeTab === 1 &&
           (allStudents.length ? (
             <StudentListTable students={allStudents} />
@@ -52,18 +57,5 @@ const Home = () => {
     </div>
   )
 }
-
-const NoStudents = () => (
-  <div>
-    <h4>You currently have no active students</h4>
-    <img
-      style={{
-        maxWidth: 500
-      }}
-      src={Teacher}
-      alt=""
-    />
-  </div>
-)
 
 export default Home

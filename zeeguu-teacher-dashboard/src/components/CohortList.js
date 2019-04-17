@@ -33,7 +33,7 @@ const CohortItem = ({ cohort }) => {
   )
 }
 
-const CohortList = ({ cohorts }) => {
+const CohortList = ({ cohorts, refetch }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isError, setIsError] = useState(false)
 
@@ -42,8 +42,7 @@ const CohortList = ({ cohorts }) => {
     createCohort(form)
       .then(result => {
         setIsOpen(false)
-        // setIsError(false)
-        // todo: refresh the UI
+        refetch(prev => prev + 1) // reloads the classes to update the UI
       })
       .catch(err => setIsError(true))
   }
