@@ -2,10 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Button, TextField } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
-import {
-  uploadArticles,
-  deleteArticle as deleteArticleAPI
-} from '../api/apiArticles'
+import { uploadArticles, deleteArticleFromCohort } from '../api/apiArticles'
 
 import { MdClose, MdCloudUpload } from 'react-icons/md/'
 import Chip from '@material-ui/core/Chip'
@@ -94,7 +91,7 @@ const CohortArticles = () => {
 
   const deleteArticle = article => {
     console.log('deleting...', article)
-    deleteArticleAPI(cohortData.id, article.id).then(result => {
+    deleteArticleFromCohort(cohortData.id, article.id).then(result => {
       console.log('result', result)
       setRefetchArticles(prev => prev + 1)
     })
