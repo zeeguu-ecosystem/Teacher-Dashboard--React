@@ -7,10 +7,21 @@ import { MdExpandMore, MdKeyboardArrowRight } from 'react-icons/md/'
 import React, { useEffect, useState, useContext } from 'react'
 import { loadUserSessions, loadUserInfo } from '../api/apiUser'
 import '../assets/styles/pages/studentPage.scss'
-import { secondsToHoursAndMinutes } from '../utilities/helpers'
+import {
+  secondsToHoursAndMinutes,
+  millisecondsToSeconds
+} from '../utilities/helpers'
 import TimePeriodContext from '../context/TimePeriodContext'
 import ElephantLoader from '../components/ElephantLoader'
 
+// const sessionDuration = duration => {
+//   return secondsToHoursAndMinutes(millisecondsToSeconds(duration))
+// }
+const sessionDuration = readingSession => {
+  return secondsToHoursAndMinutes(
+    millisecondsToSeconds(readingSession.duration)
+  )
+}
 const StudentActivity = ({ studentId }) => {
   const { timePeriod } = useContext(TimePeriodContext)
   const [articlesByDate, setArticlesByDate] = useState([])
@@ -52,7 +63,7 @@ const StudentActivity = ({ studentId }) => {
                     {readingSession.article_title}
                   </h2>
                   <p className="student-activity-item-duration">
-                    {secondsToHoursAndMinutes(readingSession.duration / 1000)}
+                    {sessionDuration(readingSession)}
                   </p>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails
