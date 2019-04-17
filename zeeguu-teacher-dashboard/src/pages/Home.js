@@ -39,6 +39,7 @@ const Home = () => {
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="secondary"
+          style={{ marginBottom: '10px' }}
         >
           <Tab label="CLASSES" />
           <Tab label="STUDENTS" />
