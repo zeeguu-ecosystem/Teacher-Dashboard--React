@@ -6,23 +6,30 @@ import { getCohortsInfo, getUsersByTeacher } from '../api/apiCohort'
 import CohortList from '../components/CohortList'
 import StudentListTable from '../components/StudentListTable'
 import '../assets/styles/pages/Home.scss'
+import shared from '../assets/styles/shared.scss'
 import Teacher from '../assets/images/teacher.svg'
+import { SpringSpinner } from 'react-epic-spinners'
 
 const Home = () => {
   const [cohorts, setCohortsInfo] = useState([])
   const [activeTab, setActiveTag] = useState(0)
+  const [isLoadingCohorts, setIsLoadingCohorts] = useState(true)
+  const [isLoadingStudents, setIsLoadingStudents] = useState(true)
   const [allStudents, setAllStudents] = useState([])
   const { timePeriod } = useContext(TimePeriodContext)
 
   useEffect(() => {
+    setIsLoadingStudents(true)
     getUsersByTeacher(timePeriod).then(students => {
       setAllStudents(students)
+      setIsLoadingStudents(false)
     })
   }, [timePeriod])
 
   useEffect(() => {
     getCohortsInfo().then(({ data }) => {
       setCohortsInfo(data)
+      setIsLoadingCohorts(false)
     })
   }, [])
 
@@ -41,14 +48,32 @@ const Home = () => {
           <Tab label="CLASSES" />
           <Tab label="STUDENTS" />
         </Tabs>
-        {activeTab === 0 && <CohortList cohorts={cohorts} />}
-        {activeTab === 1 &&
-          (allStudents.length ? (
+        {activeTab === 0 ? (
+          isLoadingCohorts ? (
+            <SpringSpinner
+              className="spinner-centered"
+              color={shared.colorPrimary}
+              size={Number(shared.spinnerSizeLarge)}
+            />
+          ) : (
+            <CohortList cohorts={cohorts} />
+          )
+        ) : null}
+        {activeTab === 1 ? (
+          isLoadingStudents ? (
+            <SpringSpinner
+              className="spinner-centered"
+              color={shared.colorPrimary}
+              size={Number(shared.spinnerSizeLarge)}
+            />
+          ) : allStudents.length ? (
             <StudentListTable students={allStudents} />
           ) : (
             <NoStudents />
-          ))}
+          )
+        ) : null}
       </div>
+      {/* )} */}
     </div>
   )
 }
