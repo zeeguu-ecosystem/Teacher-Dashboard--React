@@ -12,8 +12,7 @@ import ClassroomContext from '../context/ClassroomContext'
 import TimePeriodContext from '../context/TimePeriodContext'
 
 import '../assets/styles/pages/classroom.scss'
-import shared from '../assets/styles/shared.scss'
-import { SpringSpinner } from 'react-epic-spinners'
+import ElephantLoader from '../components/ElephantLoader'
 
 const Classroom = ({ cohortId }) => {
   const { timePeriod } = useContext(TimePeriodContext)
@@ -107,11 +106,7 @@ const Classroom = ({ cohortId }) => {
           </div>
         </div>
         {isLoading ? (
-          <SpringSpinner
-            className="spinner-centered"
-            color={shared.colorPrimary}
-            size={Number(shared.spinnerSizeLarge)}
-          />
+          <ElephantLoader />
         ) : students.length === 0 ? (
           <>
             <p> This class has no students</p>

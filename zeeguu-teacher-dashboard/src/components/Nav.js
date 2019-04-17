@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from '@reach/router'
 
-import Logo from '../assets/images/logo.png'
+import Logo from '../assets/images/elephlogo.png'
 import TimePeriod from './TimePeriod'
 
 import '../assets/styles/components/nav.scss'

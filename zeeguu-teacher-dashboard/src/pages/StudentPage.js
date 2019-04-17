@@ -7,10 +7,9 @@ import { MdExpandMore, MdKeyboardArrowRight } from 'react-icons/md/'
 import React, { useEffect, useState, useContext } from 'react'
 import { loadUserSessions, loadUserInfo } from '../api/apiUser'
 import '../assets/styles/pages/studentPage.scss'
-import shared from '../assets/styles/shared.scss'
 import { secondsToHoursAndMinutes } from '../utilities/helpers'
 import TimePeriodContext from '../context/TimePeriodContext'
-import { SpringSpinner } from 'react-epic-spinners'
+import ElephantLoader from '../components/ElephantLoader'
 
 const StudentActivity = ({ studentId }) => {
   const { timePeriod } = useContext(TimePeriodContext)
@@ -37,11 +36,7 @@ const StudentActivity = ({ studentId }) => {
   return (
     <div className="student-page">
       {isLoading ? (
-        <SpringSpinner
-          className="spinner-centered"
-          color={shared.colorPrimary}
-          size={Number(shared.spinnerSizeLarge)}
-        />
+        <ElephantLoader />
       ) : articlesByDate.length === 0 ? (
         <p style={{ textAlign: 'center' }}>
           The student has not read any articles yet

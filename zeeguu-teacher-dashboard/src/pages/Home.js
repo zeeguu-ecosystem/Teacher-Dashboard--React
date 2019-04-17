@@ -6,9 +6,8 @@ import { getCohortsInfo, getUsersByTeacher } from '../api/apiCohort'
 import CohortList from '../components/CohortList'
 import StudentListTable from '../components/StudentListTable'
 import '../assets/styles/pages/Home.scss'
-import shared from '../assets/styles/shared.scss'
 import Teacher from '../assets/images/teacher.svg'
-import { SpringSpinner } from 'react-epic-spinners'
+import ElephantLoader from '../components/ElephantLoader'
 
 const Home = () => {
   const [cohorts, setCohortsInfo] = useState([])
@@ -50,22 +49,14 @@ const Home = () => {
         </Tabs>
         {activeTab === 0 ? (
           isLoadingCohorts ? (
-            <SpringSpinner
-              className="spinner-centered"
-              color={shared.colorPrimary}
-              size={Number(shared.spinnerSizeLarge)}
-            />
+            <ElephantLoader />
           ) : (
             <CohortList cohorts={cohorts} />
           )
         ) : null}
         {activeTab === 1 ? (
           isLoadingStudents ? (
-            <SpringSpinner
-              className="spinner-centered"
-              color={shared.colorPrimary}
-              size={Number(shared.spinnerSizeLarge)}
-            />
+            <ElephantLoader />
           ) : allStudents.length ? (
             <StudentListTable students={allStudents} />
           ) : (
