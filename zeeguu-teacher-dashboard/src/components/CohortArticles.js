@@ -8,6 +8,7 @@ import {
 } from '../api/apiArticles'
 
 import { MdClose, MdCloudUpload } from 'react-icons/md/'
+import Chip from '@material-ui/core/Chip'
 
 import { languageMap } from '../utilities/helpers'
 
@@ -152,14 +153,17 @@ const CohortArticles = () => {
 
 const ArticleList = ({ articles, deleteArticle }) => {
   return (
-    <div className="article-list">
+    <div className="article-list-container">
       <h4>Article list</h4>
-      <ul>
+      <ul className="article-list">
         {articles.map(article => {
           return (
-            <li className="article" key={article.id}>
-              <p>{article.title}</p>
-              <MdClose size="22px" onClick={() => deleteArticle(article)} />
+            <li key={article.id}>
+              <Chip
+                label={article.title}
+                onDelete={() => deleteArticle(article)}
+                className="article"
+              />
             </li>
           )
         })}
