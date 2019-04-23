@@ -75,14 +75,12 @@ const CohortArticles = () => {
       return object
     })
     Promise.all(articlesData).then(data => {
-      console.log('articles', data)
       setArticlesToUpload(data)
     })
   }
 
   const onUploadArticles = e => {
     e.preventDefault()
-    console.log('uploading...')
     uploadArticles(cohortData.id, articlesToUpload).then(result => {
       setRefetchArticles(prev => prev + 1)
       setArticlesToUpload([])
@@ -90,9 +88,7 @@ const CohortArticles = () => {
   }
 
   const deleteArticle = article => {
-    console.log('deleting...', article)
     deleteArticleFromCohort(cohortData.id, article.id).then(result => {
-      console.log('result', result)
       setRefetchArticles(prev => prev + 1)
     })
   }
@@ -193,7 +189,6 @@ const UserInput = ({ user, refetchArticles }) => {
       languageCode,
       user
     )
-    console.log('submitting', articleObj)
     uploadArticles(cohortData.id, [articleObj]).then(result => {
       refetchArticles()
     })
