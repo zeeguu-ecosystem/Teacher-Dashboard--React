@@ -116,7 +116,14 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
             <MenuItem value={'zh-CN'}>Chinese</MenuItem>
           </Select>
         </FormControl>
-        {isError && <Error setLoading={setIsLoading} />}
+        {isError && (
+          <Error
+            message={
+              'Something went wrong. Maybe the invite code is already in use.'
+            }
+            setLoading={setIsLoading}
+          />
+        )}
         <Button
           style={{ marginTop: 10 }}
           type="submit"
@@ -131,19 +138,23 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   )
 }
 
-const Error = ({ setLoading }) => {
+const Error = ({ setLoading, message }) => {
   setLoading(false)
-  return <p style={{ color: 'red', width: '100%' }}>Something went wrong.</p>
+  return <p style={{ color: 'red', width: '100%' }}>{message}</p>
 }
 
 const DangerZone = ({ cohortId }) => {
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   function deleteCohort(cohortId) {
-    setIsDeleting(true)
+    setIsLoading(true)
+    setIsError(false)
     deleteCohortAPI(cohortId)
       .then(() => navigate(`/${process.env.REACT_APP_ROOT_NAME}`), 2000)
-      .catch(err => console.log('failed to delete class', err))
+      .catch(err => {
+        setIsError(true)
+      })
   }
 
   return (
@@ -156,8 +167,14 @@ const DangerZone = ({ cohortId }) => {
         variant="contained"
         color="secondary"
       >
-        {isDeleting ? <SpringSpinner size={24} /> : 'Delete Class'}
+        {isLoading ? <SpringSpinner size={24} /> : 'Delete Class'}
       </Button>
+      {isError && (
+        <Error
+          message={`You can't delete a class that has students or files.`}
+          setLoading={setIsLoading}
+        />
+      )}
     </div>
   )
 }
