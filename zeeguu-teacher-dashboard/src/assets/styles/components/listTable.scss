@@ -6,26 +6,22 @@
   & > * {
     display: inline;
     &:nth-child(1) {
-      // background: blue;
       width: 30%;
     }
     &:nth-child(2) {
       width: 25%;
-      // background: palegoldenrod;
     }
     &:nth-child(3) {
       width: 45%;
-      // background: powderblue;
     }
   }
   &:nth-child(2) {
     background: red;
   }
 }
+
 .ztd-student-table--header {
-  // background: blue;
   background-color: $accent-surface-primary-light;
-  // border: 1px solid black;
 }
 
 .ztd-student-table--item {
@@ -56,11 +52,11 @@
       calc(4 * #{$spacing-unit});
   }
 }
+
 .ztd-student-table--is-sortable {
   &:after {
     position: absolute;
     right: 0;
-    // content: '/djf';
   }
   height: 100%;
   &:hover {

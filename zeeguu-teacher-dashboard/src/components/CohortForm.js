@@ -7,7 +7,7 @@ import {
   TextField
 } from '@material-ui/core'
 import { navigate } from '@reach/router'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
 import { deleteCohort as deleteCohortAPI } from '../api/apiCohort'
@@ -26,7 +26,7 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
     labelWidth: 0
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     setState({
       ...state,
       labelWidth: ReactDOM.findDOMNode(inputLabelRef.current).offsetWidth
@@ -116,7 +116,14 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
             <MenuItem value={'zh-CN'}>Chinese</MenuItem>
           </Select>
         </FormControl>
-        {isError && <Error setLoading={setIsLoading} />}
+        {isError && (
+          <Error
+            message={
+              'Something went wrong. Maybe the invite code is already in use.'
+            }
+            setLoading={setIsLoading}
+          />
+        )}
         <Button
           style={{ marginTop: 10 }}
           type="submit"
@@ -131,23 +138,23 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   )
 }
 
-const Error = ({ setLoading }) => {
+const Error = ({ setLoading, message }) => {
   setLoading(false)
-  return (
-    <p style={{ color: 'red' }}>
-      A class with that invite code already exists. Please pick another one.
-    </p>
-  )
+  return <p style={{ color: 'red', width: '100%' }}>{message}</p>
 }
 
 const DangerZone = ({ cohortId }) => {
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   function deleteCohort(cohortId) {
-    setIsDeleting(true)
+    setIsLoading(true)
+    setIsError(false)
     deleteCohortAPI(cohortId)
       .then(() => navigate(`/${process.env.REACT_APP_ROOT_NAME}`), 2000)
-      .catch(err => console.log('failed to delete class', err))
+      .catch(err => {
+        setIsError(true)
+      })
   }
 
   return (
@@ -160,8 +167,14 @@ const DangerZone = ({ cohortId }) => {
         variant="contained"
         color="secondary"
       >
-        {isDeleting ? <SpringSpinner size={24} /> : 'Delete Class'}
+        {isLoading ? <SpringSpinner size={24} /> : 'Delete Class'}
       </Button>
+      {isError && (
+        <Error
+          message={`You can't delete a class that has students or files.`}
+          setLoading={setIsLoading}
+        />
+      )}
     </div>
   )
 }

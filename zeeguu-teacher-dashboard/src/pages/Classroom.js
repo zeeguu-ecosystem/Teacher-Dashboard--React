@@ -8,29 +8,34 @@ import {
 import CohortForm from '../components/CohortForm'
 import CohortArticles from '../components/CohortArticles'
 import StudentListTable from '../components/StudentListTable'
+import NoStudents from '../components/NoStudents'
 import ClassroomContext from '../context/ClassroomContext'
 import TimePeriodContext from '../context/TimePeriodContext'
 
 import '../assets/styles/pages/classroom.scss'
+import ElephantLoader from '../components/ElephantLoader'
 
 const Classroom = ({ cohortId }) => {
   const { timePeriod } = useContext(TimePeriodContext)
   const [cohortInfo, setCohortInfo] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
   const [students, setStudents] = useState([])
   const [cohortArticlesIsOpen, setCohortArticlesIsOpen] = useState(false)
   const [formIsOpen, setFormIsOpen] = useState(false)
   const [formStateIsError, setFormStateIsError] = useState(false)
 
   useEffect(() => {
+    setIsLoading(true)
     getGeneralCohortInfo(cohortId).then(({ data }) => {
       setCohortInfo(data)
     })
     getStudents(cohortId, timePeriod).then(students => {
       setStudents(students)
+      setIsLoading(false)
     })
   }, [timePeriod])
 
-  const updateCohort = form => {
+  const onUpdateCohort = form => {
     setFormStateIsError(false)
     updateCohort(form, cohortId)
       .then(result => {
@@ -83,7 +88,7 @@ const Classroom = ({ cohortId }) => {
                 <CohortForm
                   primaryButtonText="Update Class"
                   cohort={cohortInfo}
-                  onSubmit={updateCohort}
+                  onSubmit={onUpdateCohort}
                   isError={formStateIsError}
                 />
               </DialogContent>
@@ -101,12 +106,14 @@ const Classroom = ({ cohortId }) => {
             </Dialog>
           </div>
         </div>
-        {students.length === 0 ? (
+        {isLoading ? (
+          <ElephantLoader />
+        ) : students.length === 0 ? (
           <>
-            <p> This class has no students</p>
-            <p>
+            <NoStudents />
+            <p style={{ fontSize: '32px' }}>
               Students can join this class by using the invite code:{' '}
-              {cohortInfo.inv_code}
+              <span style={{ fontWeight: 'bold' }}>{cohortInfo.inv_code}</span>
             </p>
           </>
         ) : (
