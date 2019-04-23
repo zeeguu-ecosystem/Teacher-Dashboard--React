@@ -35,7 +35,7 @@ const Classroom = ({ cohortId }) => {
     })
   }, [timePeriod])
 
-  const updateCohort = form => {
+  const onUpdateCohort = form => {
     setFormStateIsError(false)
     updateCohort(form, cohortId)
       .then(result => {
@@ -88,7 +88,7 @@ const Classroom = ({ cohortId }) => {
                 <CohortForm
                   primaryButtonText="Update Class"
                   cohort={cohortInfo}
-                  onSubmit={updateCohort}
+                  onSubmit={onUpdateCohort}
                   isError={formStateIsError}
                 />
               </DialogContent>
