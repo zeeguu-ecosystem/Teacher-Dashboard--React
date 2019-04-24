@@ -10,8 +10,8 @@ import '../assets/styles/components/listTable.scss'
 // Therefore an unordered list is used
 const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
   const [sortingInfo, setSortingInfo] = useState({
-    sortingIndex: '',
-    reverse: false
+    sortingIndex: -1,
+    isReverse: false
   })
   const [sortedBodyItems, setSortedBodyItems] = useState(bodyItems)
 
@@ -30,38 +30,50 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
           return sortingValueA - sortingValueB
         }
       })
-      if (sortingInfo.reverse) {
+      if (sortingInfo.isReverse) {
         sortedItems = sortedItems.reverse()
       }
     }
     setSortedBodyItems(sortedItems)
   }, [sortingInfo, bodyItems])
 
+  const sort = index => {
+    setSortingInfo(prev => ({
+      sortingIndex: index,
+      isReverse: prev.sortingIndex === index ? false : !prev.isReverse
+    }))
+  }
+
   return (
     <div>
       <LTHead>
-        {headItems.map((item, index) => (
-          <LTHeadItem
-            isSortable={item.isSortable}
-            key={index}
-            onClick={
-              item.isSortable
-                ? () => {
-                    const isReverse =
-                      sortingInfo.sortingIndex === index
-                        ? !sortingInfo.reverse
-                        : false
-                    setSortingInfo({
-                      sortingIndex: index,
-                      reverse: isReverse
-                    })
-                  }
-                : null
-            }
-          >
-            {item.content}
-          </LTHeadItem>
-        ))}
+        {headItems.map((item, index) => {
+          const { sortingIndex, isReverse } = sortingInfo
+          if (sortingInfo.sortingIndex === -1 && item.isSortedDefault) {
+            sort(index)
+          }
+          return (
+            <LTHeadItem
+              isSortable={item.isSortable}
+              sortedStatus={
+                sortingInfo.sortingIndex !== index
+                  ? null
+                  : { isSorted: true, isReverse: isReverse }
+              }
+              // sortedDirection={
+              //   sortedIndex === -1 && item.isSortedDefault
+              //     ? sortedDirection
+              //     : sortedIndex === index
+              //     ? sortedDirection
+              //     : null
+              // }
+              key={index}
+              onClick={item.isSortable ? () => sort(index) : null}
+            >
+              {item.content}
+            </LTHeadItem>
+          )
+        })}
       </LTHead>
       <ul>
         {sortedBodyItems.map((row, index) => {
@@ -81,9 +93,11 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
 export const LTHead = ({ children }) => {
   return <div className="ztd-student-table--header">{children}</div>
 }
+
 export const LTHeadItem = ({
   children,
   isSortable = false,
+  sortedStatus,
   onClick = null
 }) => (
   <div
@@ -92,6 +106,8 @@ export const LTHeadItem = ({
     })}
     onClick={onClick}
   >
+    {/* TODO! THIS NEEDS TO BE FIXED*/}
+    {sortedStatus && <div>yah yah yah</div>}
     {children}
   </div>
 )

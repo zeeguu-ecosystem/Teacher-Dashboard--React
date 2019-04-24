@@ -43,7 +43,8 @@ const StudentListTable = ({ students }) => {
     {
       width: 25,
       isSortable: true,
-      content: <p>TIME SPENT</p>
+      content: <p>TIME SPENT</p>,
+      isSortedDefault: true
     },
     {
       width: 50,
