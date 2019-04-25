@@ -6,24 +6,24 @@ import clsx from 'clsx'
 import '../assets/styles/components/listTable.scss'
 
 const SortingArrows = ({ sortedStatus }) => {
-  console.log(sortedStatus)
-  return (
-    <div className="sorting-arrows">
-      {(!sortedStatus && (
-        <>
-          <MdArrowDownward className="left-arrow" />
-          <MdArrowUpward className="right-arrow" />
-        </>
-      )) || (
-        <MdArrowDownward
-          className={clsx('sorted-arrow', {
-            'sorted-arrow-up': sortedStatus.isReverse,
-            'sorted-arrow-down': !sortedStatus.isReverse
-          })}
-        />
-      )}
+  return sortedStatus ? (
+    <div className="sorting-arrow">
+      <MdArrowDownward
+        className={clsx('sorted-arrow', {
+          'sorted-arrow-up': sortedStatus.isReverse,
+          'sorted-arrow-down': !sortedStatus.isReverse
+        })}
+      />
     </div>
-  )
+  ) : null
+
+  // <div className="sorting-arrows">
+  //   {(!sortedStatus && (
+  //     <>
+  //       <MdArrowDownward className="left-arrow" />
+  //       <MdArrowUpward className="right-arrow" />
+  //     </>
+  //   )) || (
 }
 
 // We are not using the html "table" element because each row is a link.
@@ -120,6 +120,8 @@ export const LTHeadItem = ({
     })}
     onClick={onClick}
   >
+    {/* TODO! THIS NEEDS TO BE FIXED*/}
+
     <div className="head-item">
       {children}
       {isSortable && <SortingArrows sortedStatus={sortedStatus} />}
@@ -132,6 +134,7 @@ export const LTBody = ({ children }) => {
 
 export const LTRow = ({
   children,
+  //Rename 'component' to 'Component', and the sets the default value to be a functional react component
   component: Component = props => <a {...props}>{props.children}</a>
 }) => {
   return (
