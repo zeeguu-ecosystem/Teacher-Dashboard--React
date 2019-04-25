@@ -25,6 +25,27 @@ export function getProportion(a, b) {
   }
 }
 
+export function transformStudents(students) {
+  let maxActivity = 0
+  let transformedStudents = students.map(student => {
+    const { reading_time, exercises_done } = student
+    const learning_proportion = getProportion(reading_time, exercises_done)
+    const total_time = reading_time + exercises_done
+    maxActivity = maxActivity > total_time ? maxActivity : total_time
+    return {
+      ...student,
+      learning_proportion,
+      total_time
+    }
+  })
+  if (maxActivity !== 0) {
+    transformedStudents = transformedStudents.map(student =>
+      addTotalAndNormalizedTime(student, maxActivity)
+    )
+  }
+  return transformedStudents
+}
+
 /**
  * Add normalized time to a student
  * @param {Student} student the student that should have
@@ -39,27 +60,6 @@ export function addTotalAndNormalizedTime(student, maxActivity) {
   } else {
     return student
   }
-}
-
-export function transformStudents(students) {
-  let maxActivity = 0
-  let transformedStudents = students.map(student => {
-    const { reading_time, exercises_done } = student
-    const learning_proportion = getProportion(reading_time, exercises_done)
-    const total_time = reading_time + exercises_done
-    maxActivity = maxActivity > total_time ? maxActivity : total_time
-    return {
-      ...student,
-      learning_proportion,
-      total_time
-    }
-  })
-  if (!maxActivity === 0) {
-    transformedStudents = transformedStudents.map(student =>
-      addTotalAndNormalizedTime(student, maxActivity)
-    )
-  }
-  return transformedStudents
 }
 
 export function secondsToHoursAndMinutes(seconds) {
