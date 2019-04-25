@@ -1,9 +1,30 @@
 import React, { useState, useEffect } from 'react'
+import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
+
 import clsx from 'clsx'
 
 import '../assets/styles/components/listTable.scss'
 
-// function compareString(a, b) {}
+const SortingArrows = ({ sortedStatus }) => {
+  console.log(sortedStatus)
+  return (
+    <div className="sorting-arrows">
+      {(!sortedStatus && (
+        <>
+          <MdArrowDownward className="left-arrow" />
+          <MdArrowUpward className="right-arrow" />
+        </>
+      )) || (
+        <MdArrowDownward
+          className={clsx('sorted-arrow', {
+            'sorted-arrow-up': sortedStatus.isReverse,
+            'sorted-arrow-down': !sortedStatus.isReverse
+          })}
+        />
+      )}
+    </div>
+  )
+}
 
 // We are not using the html "table" element because each row is a link.
 // implementing that functionality with table is very complex, and also bad for accessibility reasons.
@@ -40,7 +61,7 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
   const sort = index => {
     setSortingInfo(prev => ({
       sortingIndex: index,
-      isReverse: prev.sortingIndex === index ? false : !prev.isReverse
+      isReverse: prev.sortingIndex !== index ? true : !prev.isReverse
     }))
   }
 
@@ -49,24 +70,17 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
       <LTHead>
         {headItems.map((item, index) => {
           const { sortingIndex, isReverse } = sortingInfo
-          if (sortingInfo.sortingIndex === -1 && item.isSortedDefault) {
+          if (sortingIndex === -1 && item.isSortedDefault) {
             sort(index)
           }
           return (
             <LTHeadItem
               isSortable={item.isSortable}
               sortedStatus={
-                sortingInfo.sortingIndex !== index
+                sortingIndex !== index
                   ? null
                   : { isSorted: true, isReverse: isReverse }
               }
-              // sortedDirection={
-              //   sortedIndex === -1 && item.isSortedDefault
-              //     ? sortedDirection
-              //     : sortedIndex === index
-              //     ? sortedDirection
-              //     : null
-              // }
               key={index}
               onClick={item.isSortable ? () => sort(index) : null}
             >
@@ -106,9 +120,10 @@ export const LTHeadItem = ({
     })}
     onClick={onClick}
   >
-    {/* TODO! THIS NEEDS TO BE FIXED*/}
-    {sortedStatus && <div>yah yah yah</div>}
-    {children}
+    <div className="head-item">
+      {children}
+      {isSortable && <SortingArrows sortedStatus={sortedStatus} />}
+    </div>
   </div>
 )
 export const LTBody = ({ children }) => {
@@ -117,7 +132,7 @@ export const LTBody = ({ children }) => {
 
 export const LTRow = ({
   children,
-  component: Component = props => <a {...props} />
+  component: Component = props => <a {...props}>{props.children}</a>
 }) => {
   return (
     <li className="ztd-student-table--item">

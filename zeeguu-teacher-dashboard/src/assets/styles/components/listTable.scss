@@ -63,3 +63,28 @@
     cursor: pointer;
   }
 }
+.head-item {
+  display: inline-block;
+  position: relative;
+}
+.sorting-arrows {
+  position: absolute;
+  top: 0;
+  right: -40px;
+}
+
+.left-arrow {
+  position: absolute;
+  top: 8px;
+  left: 4px;
+}
+.sorted-arrow {
+  transition: transform 0.3s;
+}
+.sorted-arrow-up {
+  transform: rotate(0);
+}
+
+.sorted-arrow-down {
+  transform: rotate(180deg);
+}
