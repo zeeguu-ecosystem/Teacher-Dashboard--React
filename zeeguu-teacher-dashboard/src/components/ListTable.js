@@ -16,14 +16,6 @@ const SortingArrows = ({ sortedStatus }) => {
       />
     </div>
   ) : null
-
-  // <div className="sorting-arrows">
-  //   {(!sortedStatus && (
-  //     <>
-  //       <MdArrowDownward className="left-arrow" />
-  //       <MdArrowUpward className="right-arrow" />
-  //     </>
-  //   )) || (
 }
 
 // We are not using the html "table" element because each row is a link.
@@ -75,6 +67,7 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
           }
           return (
             <LTHeadItem
+              width={item.width}
               isSortable={item.isSortable}
               sortedStatus={
                 sortingIndex !== index
@@ -94,7 +87,11 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
           return (
             <LTRow component={row.renderComponent} key={index}>
               {row.data.map((item, index) => {
-                return <LTData key={index}>{item.content}</LTData>
+                return (
+                  <LTData width={item.width} key={index}>
+                    {item.content}
+                  </LTData>
+                )
               })}
             </LTRow>
           )
@@ -109,12 +106,14 @@ export const LTHead = ({ children }) => {
 }
 
 export const LTHeadItem = ({
+  width,
   children,
   isSortable = false,
   sortedStatus,
   onClick = null
 }) => (
   <div
+    style={{ width }}
     className={clsx('ztd-student-table--cell', {
       'ztd-student-table--is-sortable': isSortable
     })}
@@ -145,8 +144,12 @@ export const LTRow = ({
     </li>
   )
 }
-export const LTData = ({ children }) => {
-  return <div className="ztd-student-table--cell">{children}</div>
+export const LTData = ({ children, width }) => {
+  return (
+    <div style={{ width }} className="ztd-student-table--cell">
+      {children}
+    </div>
+  )
 }
 
 export default ListTable
