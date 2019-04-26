@@ -9,7 +9,8 @@ import { loadUserSessions, loadUserInfo } from '../api/apiUser'
 import '../assets/styles/pages/studentPage.scss'
 import {
   secondsToHoursAndMinutes,
-  millisecondsToSeconds
+  millisecondsToSeconds,
+  timePeriodMap
 } from '../utilities/helpers'
 import TimePeriodContext from '../context/TimePeriodContext'
 import ElephantLoader from '../components/ElephantLoader'
@@ -53,54 +54,60 @@ const StudentActivity = ({ studentId }) => {
           The student has not read any articles yet
         </p>
       ) : (
-        articlesByDate.map((day, index) => (
-          <div className="student-activity" key={index}>
-            <p>{day.date}</p>
-            {day.reading_sessions.map((readingSession, index) => (
-              <ExpansionPanel key={index}>
-                <ExpansionPanelSummary expandIcon={<MdExpandMore />}>
-                  <h2 className="student-activity-item-heading">
-                    {readingSession.article_title}
-                  </h2>
-                  <p className="student-activity-item-duration">
-                    {sessionDuration(readingSession)}
-                  </p>
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column'
-                  }}
-                >
-                  {readingSession.bookmarks.sentence_list.map(
-                    (sentence, index) => (
-                      <div
-                        className="student-page-bookmark-compound"
-                        key={index}
-                      >
-                        {sentence.context}
-                        <div className="student-page-bookmarks">
-                          {sentence.bookmarks.map(bookmark => (
-                            <p key={bookmark.id}>
-                              <span className="student-page-bookmark-from">
-                                {bookmark.from}
-                              </span>{' '}
-                              <MdKeyboardArrowRight
-                                className="student-page-translation-arrow"
-                                size="24"
-                              />{' '}
-                              {bookmark.to}{' '}
-                            </p>
-                          ))}
+        <div>
+          <p className="total-article-count">
+            {totalArticlesCount} articles read in the last{' '}
+            {timePeriodMap[timePeriod]}
+          </p>
+          {articlesByDate.map((day, index) => (
+            <div className="student-activity" key={index}>
+              <p>{day.date}</p>
+              {day.reading_sessions.map((readingSession, index) => (
+                <ExpansionPanel key={index}>
+                  <ExpansionPanelSummary expandIcon={<MdExpandMore />}>
+                    <h2 className="student-activity-item-heading">
+                      {readingSession.article_title}
+                    </h2>
+                    <p className="student-activity-item-duration">
+                      {sessionDuration(readingSession)}
+                    </p>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    {readingSession.bookmarks.sentence_list.map(
+                      (sentence, index) => (
+                        <div
+                          className="student-page-bookmark-compound"
+                          key={index}
+                        >
+                          {sentence.context}
+                          <div className="student-page-bookmarks">
+                            {sentence.bookmarks.map(bookmark => (
+                              <p key={bookmark.id}>
+                                <span className="student-page-bookmark-from">
+                                  {bookmark.from}
+                                </span>{' '}
+                                <MdKeyboardArrowRight
+                                  className="student-page-translation-arrow"
+                                  size="24"
+                                />{' '}
+                                {bookmark.to}{' '}
+                              </p>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    )
-                  )}
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            ))}
-          </div>
-        ))
+                      )
+                    )}
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              ))}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   )
