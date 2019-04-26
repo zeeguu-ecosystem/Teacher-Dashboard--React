@@ -78,30 +78,33 @@ const StudentActivity = ({ studentId }) => {
                       flexDirection: 'column'
                     }}
                   >
-                    {readingSession.bookmarks.sentence_list.map(
-                      (sentence, index) => (
-                        <div
-                          className="student-page-bookmark-compound"
-                          key={index}
-                        >
-                          {sentence.context}
-                          <div className="student-page-bookmarks">
-                            {sentence.bookmarks.map(bookmark => (
-                              <p key={bookmark.id}>
-                                <span className="student-page-bookmark-from">
-                                  {bookmark.from}
-                                </span>{' '}
-                                <MdKeyboardArrowRight
-                                  className="student-page-translation-arrow"
-                                  size="24"
-                                />{' '}
-                                {bookmark.to}{' '}
-                              </p>
-                            ))}
+                    {(readingSession.bookmarks.sentence_list.length === 0 && (
+                      <p>No words were translated in this reading session.</p>
+                    )) ||
+                      readingSession.bookmarks.sentence_list.map(
+                        (sentence, index) => (
+                          <div
+                            className="student-page-bookmark-compound"
+                            key={index}
+                          >
+                            {sentence.context}
+                            <div className="student-page-bookmarks">
+                              {sentence.bookmarks.map(bookmark => (
+                                <p key={bookmark.id}>
+                                  <span className="student-page-bookmark-from">
+                                    {bookmark.from}
+                                  </span>{' '}
+                                  <MdKeyboardArrowRight
+                                    className="student-page-translation-arrow"
+                                    size="24"
+                                  />{' '}
+                                  {bookmark.to}{' '}
+                                </p>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )
-                    )}
+                        )
+                      )}
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
               ))}
