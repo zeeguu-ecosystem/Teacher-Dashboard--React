@@ -8,6 +8,14 @@ export const languageMap = {
   Chinese: 'zh-CN'
 }
 
+export const timePeriodMap = {
+  '7': '1 week',
+  '14': '2 weeks',
+  '30': '1 month',
+  '182': '6 months',
+  '365': '1 year'
+}
+
 /**
  * Computes the proportion between two numbers
  * @param {number} a the total amount of reading time

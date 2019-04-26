@@ -5,6 +5,8 @@ import '../assets/styles/components/timeperiod.scss'
 
 import TimePeriodContext from '../context/TimePeriodContext'
 
+import { timePeriodMap } from '../utilities/helpers'
+
 const TimePeriod = () => {
   const { timePeriod, setTimePeriod } = useContext(TimePeriodContext)
 
@@ -16,11 +18,11 @@ const TimePeriod = () => {
           value={timePeriod}
           onChange={e => setTimePeriod(e.target.value)}
         >
-          <MenuItem value={'7'}>1 week</MenuItem>
-          <MenuItem value={'14'}>2 weeks</MenuItem>
-          <MenuItem value={'30'}>1 month</MenuItem>
-          <MenuItem value={'182'}>6 months</MenuItem>
-          <MenuItem value={'365'}>1 year</MenuItem>
+          <MenuItem value={'7'}>{timePeriodMap[7]}</MenuItem>
+          <MenuItem value={'14'}>{timePeriodMap[14]}</MenuItem>
+          <MenuItem value={'30'}>{timePeriodMap[30]}</MenuItem>
+          <MenuItem value={'182'}>{timePeriodMap[182]}</MenuItem>
+          <MenuItem value={'365'}>{timePeriodMap[365]}</MenuItem>
         </Select>
       </FormControl>
     </div>
