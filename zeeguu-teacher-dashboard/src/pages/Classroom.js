@@ -68,7 +68,7 @@ const Classroom = ({ cohortId }) => {
               variant="contained"
               onClick={() => setCohortArticlesIsOpen(true)}
             >
-              Manage Files
+              Manage Articles
             </Button>
             <Button
               color="primary"
