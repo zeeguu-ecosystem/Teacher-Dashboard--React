@@ -45,7 +45,6 @@ const App = () => {
               </Router>
             </div>
           ) : (
-            //should redirect to zeeguu login page?
             <NotLoggedInPage />
           )}
         </div>

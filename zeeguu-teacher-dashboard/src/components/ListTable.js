@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
+import { MdArrowDownward as MdArrow } from 'react-icons/md'
 
 import clsx from 'clsx'
 
@@ -8,7 +8,7 @@ import '../assets/styles/components/listTable.scss'
 const SortingArrows = ({ sortedStatus }) => {
   return sortedStatus ? (
     <div className="sorting-arrow">
-      <MdArrowDownward
+      <MdArrow
         className={clsx('sorted-arrow', {
           'sorted-arrow-up': sortedStatus.isReverse,
           'sorted-arrow-down': !sortedStatus.isReverse
@@ -22,8 +22,9 @@ const SortingArrows = ({ sortedStatus }) => {
 // implementing that functionality with table is very complex, and also bad for accessibility reasons.
 // Therefore an unordered list is used
 const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
+  const NO_ACTIVE_SORTING_INDEX = -1
   const [sortingInfo, setSortingInfo] = useState({
-    sortingIndex: -1,
+    sortingIndex: NO_ACTIVE_SORTING_INDEX,
     isReverse: false
   })
   const [sortedBodyItems, setSortedBodyItems] = useState(bodyItems)
@@ -65,15 +66,17 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
           if (sortingIndex === -1 && item.isSortedDefault) {
             sort(index)
           }
+
+          const sortedStatus =
+            sortingIndex !== index
+              ? null
+              : { isSorted: true, isReverse: isReverse }
+
           return (
             <LTHeadItem
               width={item.width}
               isSortable={item.isSortable}
-              sortedStatus={
-                sortingIndex !== index
-                  ? null
-                  : { isSorted: true, isReverse: isReverse }
-              }
+              sortedStatus={sortedStatus}
               key={index}
               onClick={item.isSortable ? () => sort(index) : null}
             >

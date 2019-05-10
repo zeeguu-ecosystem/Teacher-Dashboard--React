@@ -8,9 +8,10 @@
   margin-bottom: 100px;
 }
 
-// @media (max-width: 940px) {
-//   .page-home-content {
-//     display: inline-grid;
-//     grid-template-columns: 1fr;
-//   }
-// }
+.tab-color[aria-selected='false'] {
+  color: $color-text-primary-dark !important;
+}
+
+.tab-color[aria-selected='true'] {
+  color: $color-tab-active !important;
+}

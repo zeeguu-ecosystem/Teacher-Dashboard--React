@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core'
 import { MdExpandMore, MdKeyboardArrowRight } from 'react-icons/md/'
 import React, { useEffect, useState, useContext } from 'react'
-import { loadUserSessions, loadUserInfo } from '../api/apiUser'
+import { loadUserSessions } from '../api/apiUser'
 import '../assets/styles/pages/studentPage.scss'
 import {
   secondsToHoursAndMinutes,
@@ -15,9 +15,6 @@ import {
 import TimePeriodContext from '../context/TimePeriodContext'
 import ElephantLoader from '../components/ElephantLoader'
 
-// const sessionDuration = duration => {
-//   return secondsToHoursAndMinutes(millisecondsToSeconds(duration))
-// }
 const sessionDuration = readingSession => {
   return secondsToHoursAndMinutes(
     millisecondsToSeconds(readingSession.duration)
@@ -28,7 +25,6 @@ const StudentActivity = ({ studentId }) => {
   const [articlesByDate, setArticlesByDate] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [totalArticlesCount, setTotalArticlesCount] = useState(0)
-  const [userInfo, setUserInfo] = useState({})
 
   useEffect(() => {
     setIsLoading(true)
@@ -40,9 +36,6 @@ const StudentActivity = ({ studentId }) => {
       setArticlesByDate(result)
       setTotalArticlesCount(totalArticlesCount)
       setIsLoading(false)
-    })
-    loadUserInfo(studentId, timePeriod).then(({ data }) => {
-      setUserInfo(data)
     })
   }, [timePeriod])
   return (
