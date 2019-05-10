@@ -47,8 +47,8 @@ const Home = () => {
           textColor="secondary"
           style={{ marginBottom: '10px' }}
         >
-          <Tab label="CLASSES" />
-          <Tab label="STUDENTS" />
+          <Tab label="CLASSES" className="tab-color" />
+          <Tab label="STUDENTS" className="tab-color" />
         </Tabs>
         {activeTab === 0 ? (
           isLoadingCohorts ? (
