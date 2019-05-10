@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { MdArrowDownward, MdArrowUpward } from 'react-icons/md'
+import { MdArrowDownward as MdArrow } from 'react-icons/md'
 
 import clsx from 'clsx'
 
@@ -8,7 +8,7 @@ import '../assets/styles/components/listTable.scss'
 const SortingArrows = ({ sortedStatus }) => {
   return sortedStatus ? (
     <div className="sorting-arrow">
-      <MdArrowDownward
+      <MdArrow
         className={clsx('sorted-arrow', {
           'sorted-arrow-up': sortedStatus.isReverse,
           'sorted-arrow-down': !sortedStatus.isReverse
