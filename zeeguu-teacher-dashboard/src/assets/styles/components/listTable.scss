@@ -3,21 +3,6 @@
 .ztd-student-table--link {
   display: flex;
   text-align: left;
-  & > * {
-    display: inline;
-    &:nth-child(1) {
-      width: 30%;
-    }
-    &:nth-child(2) {
-      width: 25%;
-    }
-    &:nth-child(3) {
-      width: 45%;
-    }
-  }
-  &:nth-child(2) {
-    background: red;
-  }
 }
 
 .ztd-student-table--header {
@@ -61,5 +46,33 @@
   height: 100%;
   &:hover {
     cursor: pointer;
+    & p {
+      color: rgba(0, 0, 0, 0.95) !important;
+    }
   }
+}
+.head-item {
+  display: inline-block;
+  position: relative;
+}
+.sorting-arrow {
+  position: absolute;
+  top: 2px;
+  right: -20px;
+}
+
+.left-arrow {
+  position: absolute;
+  top: 8px;
+  left: 4px;
+}
+.sorted-arrow {
+  transition: transform 0.3s;
+}
+.sorted-arrow-up {
+  transform: rotate(0);
+}
+
+.sorted-arrow-down {
+  transform: rotate(180deg);
 }

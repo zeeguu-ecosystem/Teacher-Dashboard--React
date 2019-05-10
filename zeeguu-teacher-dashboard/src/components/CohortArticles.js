@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone'
 
 import { uploadArticles, deleteArticleFromCohort } from '../api/apiArticles'
 
-import { MdClose, MdCloudUpload } from 'react-icons/md/'
+import { MdCloudUpload } from 'react-icons/md/'
 import Chip from '@material-ui/core/Chip'
 
 import { languageMap } from '../utilities/helpers'

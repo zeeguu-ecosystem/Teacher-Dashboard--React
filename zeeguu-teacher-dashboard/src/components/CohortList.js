@@ -53,6 +53,7 @@ const CohortList = ({ cohorts, refetch }) => {
         <CohortItem key={cohort.id} cohort={cohort} />
       ))}
       <Button
+        aria-label="Create Class"
         style={{ minHeight: 200 }}
         color="primary"
         variant="contained"

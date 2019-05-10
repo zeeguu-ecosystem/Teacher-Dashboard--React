@@ -36,17 +36,19 @@ const ProgressBar = ({
 const StudentListTable = ({ students }) => {
   const headItems = [
     {
-      width: 25,
+      width: '25%',
       isSortable: true,
       content: <p>NAME</p>
     },
     {
-      width: 25,
+      width: '15%',
       isSortable: true,
-      content: <p>TIME SPENT</p>
+      content: <p>TIME SPENT</p>,
+      isSortedDefault: true
     },
+    { width: '20%', isSortable: true, content: <p>CLASS NAME</p> },
     {
-      width: 50,
+      width: '35%',
       isSortable: false,
       content: (
         <p>
@@ -68,11 +70,13 @@ const StudentListTable = ({ students }) => {
         {
           sortingValue: student.name,
           sortingType: 'string',
-          content: <p>{student.name}</p>
+          content: <p>{student.name}</p>,
+          width: '25%'
         },
         {
           sortingValue: student.total_time,
           sortingType: 'number',
+          width: '15%',
           content: (
             <p>
               {Math.floor(student.total_time / 3600)}h{' '}
@@ -81,6 +85,13 @@ const StudentListTable = ({ students }) => {
           )
         },
         {
+          sortingValue: student.cohort_name,
+          sortingType: 'string',
+          width: '20%',
+          content: <p>{student.cohort_name}</p>
+        },
+        {
+          width: '35%',
           content: (
             <ProgressBar
               normalized_activity_proportion={

@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react'
+import { MdArrowDownward as MdArrow } from 'react-icons/md'
+
 import clsx from 'clsx'
 
 import '../assets/styles/components/listTable.scss'
 
-// function compareString(a, b) {}
+const SortingArrows = ({ sortedStatus }) => {
+  return sortedStatus ? (
+    <div className="sorting-arrow">
+      <MdArrow
+        className={clsx('sorted-arrow', {
+          'sorted-arrow-up': sortedStatus.isReverse,
+          'sorted-arrow-down': !sortedStatus.isReverse
+        })}
+      />
+    </div>
+  ) : null
+}
 
 // We are not using the html "table" element because each row is a link.
 // implementing that functionality with table is very complex, and also bad for accessibility reasons.
 // Therefore an unordered list is used
 const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
+  const NO_ACTIVE_SORTING_INDEX = -1
   const [sortingInfo, setSortingInfo] = useState({
-    sortingIndex: '',
-    reverse: false
+    sortingIndex: NO_ACTIVE_SORTING_INDEX,
+    isReverse: false
   })
   const [sortedBodyItems, setSortedBodyItems] = useState(bodyItems)
 
@@ -30,45 +44,57 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
           return sortingValueA - sortingValueB
         }
       })
-      if (sortingInfo.reverse) {
+      if (sortingInfo.isReverse) {
         sortedItems = sortedItems.reverse()
       }
     }
     setSortedBodyItems(sortedItems)
   }, [sortingInfo, bodyItems])
 
+  const sort = index => {
+    setSortingInfo(prev => ({
+      sortingIndex: index,
+      isReverse: prev.sortingIndex !== index ? true : !prev.isReverse
+    }))
+  }
+
   return (
     <div>
       <LTHead>
-        {headItems.map((item, index) => (
-          <LTHeadItem
-            isSortable={item.isSortable}
-            key={index}
-            onClick={
-              item.isSortable
-                ? () => {
-                    const isReverse =
-                      sortingInfo.sortingIndex === index
-                        ? !sortingInfo.reverse
-                        : false
-                    setSortingInfo({
-                      sortingIndex: index,
-                      reverse: isReverse
-                    })
-                  }
-                : null
-            }
-          >
-            {item.content}
-          </LTHeadItem>
-        ))}
+        {headItems.map((item, index) => {
+          const { sortingIndex, isReverse } = sortingInfo
+          if (sortingIndex === -1 && item.isSortedDefault) {
+            sort(index)
+          }
+
+          const sortedStatus =
+            sortingIndex !== index
+              ? null
+              : { isSorted: true, isReverse: isReverse }
+
+          return (
+            <LTHeadItem
+              width={item.width}
+              isSortable={item.isSortable}
+              sortedStatus={sortedStatus}
+              key={index}
+              onClick={item.isSortable ? () => sort(index) : null}
+            >
+              {item.content}
+            </LTHeadItem>
+          )
+        })}
       </LTHead>
       <ul>
         {sortedBodyItems.map((row, index) => {
           return (
             <LTRow component={row.renderComponent} key={index}>
               {row.data.map((item, index) => {
-                return <LTData key={index}>{item.content}</LTData>
+                return (
+                  <LTData width={item.width} key={index}>
+                    {item.content}
+                  </LTData>
+                )
               })}
             </LTRow>
           )
@@ -81,18 +107,27 @@ const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
 export const LTHead = ({ children }) => {
   return <div className="ztd-student-table--header">{children}</div>
 }
+
 export const LTHeadItem = ({
+  width,
   children,
   isSortable = false,
+  sortedStatus,
   onClick = null
 }) => (
   <div
+    style={{ width }}
     className={clsx('ztd-student-table--cell', {
       'ztd-student-table--is-sortable': isSortable
     })}
     onClick={onClick}
   >
-    {children}
+    {/* TODO! THIS NEEDS TO BE FIXED*/}
+
+    <div className="head-item">
+      {children}
+      {isSortable && <SortingArrows sortedStatus={sortedStatus} />}
+    </div>
   </div>
 )
 export const LTBody = ({ children }) => {
@@ -101,7 +136,8 @@ export const LTBody = ({ children }) => {
 
 export const LTRow = ({
   children,
-  component: Component = props => <a {...props} />
+  //Rename 'component' to 'Component', and the sets the default value to be a functional react component
+  component: Component = props => <a {...props}>{props.children}</a>
 }) => {
   return (
     <li className="ztd-student-table--item">
@@ -111,8 +147,12 @@ export const LTRow = ({
     </li>
   )
 }
-export const LTData = ({ children }) => {
-  return <div className="ztd-student-table--cell">{children}</div>
+export const LTData = ({ children, width }) => {
+  return (
+    <div style={{ width }} className="ztd-student-table--cell">
+      {children}
+    </div>
+  )
 }
 
 export default ListTable
