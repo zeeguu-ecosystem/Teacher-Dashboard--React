@@ -1,7 +1,7 @@
 {
   "name": "zeeguu-teacher-dashboard",
   "version": "0.1.0",
-  "homepage": "/teacher-react/",
+  "homepage": "/teacher-dashboard/",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
