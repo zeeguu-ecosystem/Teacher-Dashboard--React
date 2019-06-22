@@ -1,16 +1,18 @@
-import { Router } from '@reach/router'
 import React, { useEffect, useState } from 'react'
-import { getUserDetails } from './api/apiUser'
-import './assets/styles/App.scss'
-import Nav from './components/Nav'
-import TimePeriodContext from './context/TimePeriodContext'
-import UserContext from './context/UserContext'
+import { Router } from '@reach/router'
+import { ToastContainer } from 'react-toastify'
 import Classroom from './pages/Classroom'
 import Home from './pages/Home'
 import NotLoggedInPage from './pages/NotLoggedInPage'
 import StudentPage from './pages/StudentPage'
+import Nav from './components/Nav'
 import { useCookie } from './utilities/hooks'
 import { useAuthentication } from './utilities/permissions'
+import { getUserDetails } from './api/apiUser'
+import TimePeriodContext from './context/TimePeriodContext'
+import UserContext from './context/UserContext'
+import 'react-toastify/dist/ReactToastify.css'
+import './assets/styles/App.scss'
 
 const App = () => {
   const [timePeriod, setTimePeriod] = useCookie('timeperiod', 30)
@@ -26,6 +28,7 @@ const App = () => {
   return (
     <TimePeriodContext.Provider value={{ timePeriod, setTimePeriod }}>
       <UserContext.Provider value={userDetails}>
+        <ToastContainer />
         <div className="App">
           {loadingAuth ? null : isAuthenticated ? (
             <div>
