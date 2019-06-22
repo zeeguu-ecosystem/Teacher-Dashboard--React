@@ -8,6 +8,8 @@ import {
 } from '@material-ui/core'
 import { navigate } from '@reach/router'
 import React, { useState, useEffect } from 'react'
+import { toast } from 'react-toastify'
+
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
 import { deleteCohort as deleteCohortAPI } from '../api/apiCohort'
@@ -151,8 +153,16 @@ const DangerZone = ({ cohortId }) => {
     setIsLoading(true)
     setIsError(false)
     deleteCohortAPI(cohortId)
-      .then(() => navigate(`/${process.env.REACT_APP_ROOT_NAME}`), 2000)
+      .then(res => {
+        toast('👩‍🎓 The class was removed!', {
+          type: toast.TYPE.SUCCESS
+        })
+        navigate(`/${process.env.REACT_APP_ROOT_NAME}`)
+      })
       .catch(err => {
+        toast('🤨 The class could not be deleted', {
+          type: toast.TYPE.ERROR
+        })
         setIsError(true)
       })
   }
