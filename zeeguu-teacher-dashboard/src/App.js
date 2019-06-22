@@ -1,22 +1,18 @@
+import React, { useEffect, useState } from 'react'
 import { Router } from '@reach/router'
-
-import React, { useState, useEffect } from 'react'
-
-import './assets/styles/App.scss'
-
-import Nav from './components/Nav'
+import { ToastContainer } from 'react-toastify'
 import Classroom from './pages/Classroom'
 import Home from './pages/Home'
-import StudentPage from './pages/StudentPage'
 import NotLoggedInPage from './pages/NotLoggedInPage'
-
+import StudentPage from './pages/StudentPage'
+import Nav from './components/Nav'
+import { useCookie } from './utilities/hooks'
+import { useAuthentication } from './utilities/permissions'
+import { getUserDetails } from './api/apiUser'
 import TimePeriodContext from './context/TimePeriodContext'
 import UserContext from './context/UserContext'
-import {useCookie} from './utilities/hooks'
-
-import { getUserDetails } from './api/apiUser'
-import { useAuthentication } from './utilities/permissions'
-
+import 'react-toastify/dist/ReactToastify.css'
+import './assets/styles/App.scss'
 
 const App = () => {
   const [timePeriod, setTimePeriod] = useCookie('timeperiod', 30)
@@ -32,6 +28,7 @@ const App = () => {
   return (
     <TimePeriodContext.Provider value={{ timePeriod, setTimePeriod }}>
       <UserContext.Provider value={userDetails}>
+        <ToastContainer />
         <div className="App">
           {loadingAuth ? null : isAuthenticated ? (
             <div>
@@ -51,7 +48,6 @@ const App = () => {
               </Router>
             </div>
           ) : (
-            //should redirect to zeeguu login page?
             <NotLoggedInPage />
           )}
         </div>
