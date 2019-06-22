@@ -44,7 +44,7 @@ const CohortList = ({ cohorts, refetch }) => {
     createCohort(form)
       .then(result => {
         setIsOpen(false)
-        toast('👩‍🎓 The class was added!', {
+        toast('👩‍🎓 The class was created successfully!', {
           type: toast.TYPE.SUCCESS
         })
         refetch(prev => prev + 1) // reloads the classes to update the UI

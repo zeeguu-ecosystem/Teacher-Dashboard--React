@@ -154,7 +154,7 @@ const DangerZone = ({ cohortId }) => {
     setIsError(false)
     deleteCohortAPI(cohortId)
       .then(res => {
-        toast('👩‍🎓 The class was removed!', {
+        toast('👩‍🎓 The class was deleted!', {
           type: toast.TYPE.SUCCESS
         })
         navigate(`/${process.env.REACT_APP_ROOT_NAME}`)
