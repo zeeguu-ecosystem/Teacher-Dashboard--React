@@ -1,22 +1,16 @@
 import { Router } from '@reach/router'
-
-import React, { useState, useEffect } from 'react'
-
+import React, { useEffect, useState } from 'react'
+import { getUserDetails } from './api/apiUser'
 import './assets/styles/App.scss'
-
 import Nav from './components/Nav'
-import Classroom from './pages/Classroom'
-import Home from './pages/Home'
-import StudentPage from './pages/StudentPage'
-import NotLoggedInPage from './pages/NotLoggedInPage'
-
 import TimePeriodContext from './context/TimePeriodContext'
 import UserContext from './context/UserContext'
-import {useCookie} from './utilities/hooks'
-
-import { getUserDetails } from './api/apiUser'
+import Classroom from './pages/Classroom'
+import Home from './pages/Home'
+import NotLoggedInPage from './pages/NotLoggedInPage'
+import StudentPage from './pages/StudentPage'
+import { useCookie } from './utilities/hooks'
 import { useAuthentication } from './utilities/permissions'
-
 
 const App = () => {
   const [timePeriod, setTimePeriod] = useCookie('timeperiod', 30)
@@ -51,7 +45,6 @@ const App = () => {
               </Router>
             </div>
           ) : (
-            //should redirect to zeeguu login page?
             <NotLoggedInPage />
           )}
         </div>
