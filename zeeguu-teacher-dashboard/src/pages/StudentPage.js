@@ -70,7 +70,7 @@ const StudentActivity = ({ studentId }) => {
                           readingSession.article_id
                         }`}
                       >
-                        Go to article
+                        (→)
                       </a>
                     </div>
                     <p className="student-activity-item-duration">
