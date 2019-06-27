@@ -62,16 +62,6 @@ const StudentActivity = ({ studentId }) => {
                       <h2 className="student-activity-item-heading">
                         {readingSession.article_title}
                       </h2>
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="student-activity-item-link"
-                        href={`/read/article?articleID=${
-                          readingSession.article_id
-                        }`}
-                      >
-                        (→)
-                      </a>
                     </div>
                     <p className="student-activity-item-duration">
                       {sessionDuration(readingSession)}
@@ -83,6 +73,16 @@ const StudentActivity = ({ studentId }) => {
                       flexDirection: 'column'
                     }}
                   >
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="student-activity-item-link"
+                      href={`/read/article?articleID=${
+                        readingSession.article_id
+                      }`}
+                    >
+                      Read article →
+                    </a>
                     {(readingSession.bookmarks.sentence_list.length === 0 && (
                       <p>No words were translated in this reading session.</p>
                     )) ||
