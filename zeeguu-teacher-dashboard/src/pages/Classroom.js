@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Button, Dialog, DialogContent } from '@material-ui/core'
+import { toast } from 'react-toastify'
+
 import {
   getGeneralCohortInfo,
   getStudents,
@@ -40,11 +42,19 @@ const Classroom = ({ cohortId }) => {
     updateCohort(form, cohortId)
       .then(result => {
         setFormIsOpen(false)
+        toast('👩‍🎓 The class information was updated!', {
+          type: toast.TYPE.SUCCESS
+        })
         getGeneralCohortInfo(cohortId).then(({ data }) => {
           setCohortInfo(data)
         })
       })
-      .catch(err => setFormStateIsError(true))
+      .catch(err => {
+        toast('🤨 The class could not be updated', {
+          type: toast.TYPE.ERROR
+        })
+        setFormStateIsError(true)
+      })
   }
 
   return (

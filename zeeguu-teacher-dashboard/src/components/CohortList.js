@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { MdAddCircle, MdArrowForward, MdPeople } from 'react-icons/md/'
 import { createCohort } from '../api/apiCohort'
 import CohortForm from './CohortForm'
+import { toast } from 'react-toastify'
+
 import '../assets/styles/components/cohortList.scss'
 
 const CohortItem = ({ cohort }) => {
@@ -42,9 +44,17 @@ const CohortList = ({ cohorts, refetch }) => {
     createCohort(form)
       .then(result => {
         setIsOpen(false)
+        toast('👩‍🎓 The class was created successfully!', {
+          type: toast.TYPE.SUCCESS
+        })
         refetch(prev => prev + 1) // reloads the classes to update the UI
       })
-      .catch(err => setIsError(true))
+      .catch(err => {
+        toast('🤨 The class could not be created', {
+          type: toast.TYPE.ERROR
+        })
+        setIsError(true)
+      })
   }
 
   return (

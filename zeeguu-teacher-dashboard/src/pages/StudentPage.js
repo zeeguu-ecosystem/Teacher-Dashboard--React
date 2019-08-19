@@ -54,13 +54,15 @@ const StudentActivity = ({ studentId }) => {
           </p>
           {articlesByDate.map((day, index) => (
             <div className="student-activity" key={index}>
-              <p>{day.date}</p>
+              <p style={{ marginBottom: 10 }}>{day.date}</p>
               {day.reading_sessions.map((readingSession, index) => (
                 <ExpansionPanel key={index}>
                   <ExpansionPanelSummary expandIcon={<MdExpandMore />}>
-                    <h2 className="student-activity-item-heading">
-                      {readingSession.article_title}
-                    </h2>
+                    <div style={{ display: 'flex', alignItems: 'baseline' }}>
+                      <h2 className="student-activity-item-heading">
+                        {readingSession.article_title}
+                      </h2>
+                    </div>
                     <p className="student-activity-item-duration">
                       {sessionDuration(readingSession)}
                     </p>
@@ -71,6 +73,16 @@ const StudentActivity = ({ studentId }) => {
                       flexDirection: 'column'
                     }}
                   >
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="student-activity-item-link"
+                      href={`/read/article?articleID=${
+                        readingSession.article_id
+                      }`}
+                    >
+                      Read article →
+                    </a>
                     {(readingSession.bookmarks.sentence_list.length === 0 && (
                       <p>No words were translated in this reading session.</p>
                     )) ||
