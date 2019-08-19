@@ -5,7 +5,8 @@ export const languageMap = {
   Dutch: 'nl',
   English: 'en',
   Italian: 'it',
-  Chinese: 'zh-CN'
+  Chinese: 'zh-CN',
+  Danish: 'da'
 }
 
 export const timePeriodMap = {
