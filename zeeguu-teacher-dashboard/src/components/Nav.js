@@ -9,9 +9,13 @@ import '../assets/styles/components/nav.scss'
 const Nav = () => (
   <nav>
     <div className="navigation__links">
+
+        <a href="https://zeeguu.org/">
+            <img src={Logo} alt="" className="logo" />
+        </a>
+
       <Link to={`${process.env.REACT_APP_ROOT_NAME}`}>
-        <img src={Logo} alt="" className="logo" />
-        <p className="link-text"> Zeeguu Teacher Dashboard</p>
+        <p className="link-text"> Teacher Dashboard</p>
       </Link>
     </div>
     <TimePeriod />
