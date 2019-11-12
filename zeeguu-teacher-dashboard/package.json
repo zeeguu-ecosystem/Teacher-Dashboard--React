@@ -19,7 +19,8 @@
     "react-scripts": "2.1.5",
     "react-toastify": "^5.3.1",
     "typeface-roboto": "0.0.54",
-    "universal-cookie": "^3.0.7"
+    "universal-cookie": "^3.0.7",
+    "terser-webpack-plugin": "2.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
