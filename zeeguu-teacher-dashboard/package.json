@@ -4,12 +4,12 @@
   "homepage": "/teacher-dashboard/",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^3.9.2",
+    "@material-ui/core": "^4.7.0",
     "@reach/dialog": "^0.1.3",
     "@reach/router": "^1.2.1",
     "axios": "^0.18.0",
     "clsx": "^1.0.3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.0",
     "react": "^16.8.3",
     "react-cookie": "^3.0.8",
     "react-dom": "^16.8.3",
@@ -19,7 +19,8 @@
     "react-scripts": "2.1.5",
     "react-toastify": "^5.3.1",
     "typeface-roboto": "0.0.54",
-    "universal-cookie": "^3.0.7"
+    "universal-cookie": "^3.0.7",
+    "typescript": "^3.7.3"
   },
   "scripts": {
     "start": "react-scripts start",
