@@ -99,7 +99,7 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
           style={{ minWidth: 120 }}
         >
           <InputLabel ref={inputLabelRef} htmlFor="language_id">
-            Language
+            Learned Language
           </InputLabel>
           <Select
             inputProps={{
@@ -109,13 +109,15 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
             value={state.language_id}
             onChange={handleChange}
           >
-            <MenuItem value={'de'}>German</MenuItem>
-            <MenuItem value={'es'}>Spanish</MenuItem>
-            <MenuItem value={'fr'}>French</MenuItem>
+            <MenuItem value={'zh-CN'}>Chinese</MenuItem>
+            <MenuItem value={'da'}>Danish</MenuItem>
             <MenuItem value={'nl'}>Dutch</MenuItem>
             <MenuItem value={'en'}>English</MenuItem>
+            <MenuItem value={'fr'}>French</MenuItem>
+            <MenuItem value={'de'}>German</MenuItem>
             <MenuItem value={'it'}>Italian</MenuItem>
-            <MenuItem value={'zh-CN'}>Chinese</MenuItem>
+            <MenuItem value={'es'}>Spanish</MenuItem>
+
           </Select>
         </FormControl>
         {isError && (
