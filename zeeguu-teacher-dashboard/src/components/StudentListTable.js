@@ -2,49 +2,21 @@ import React from 'react'
 
 import ListTable from './ListTable'
 import { Link } from '@reach/router'
-import '../assets/styles/components/studentListTable.scss'
+import '../assets/styles/components/studentActivityOverview.scss'
+import ProgressBar from './ProgressBar'
 
-const ProgressBar = ({
-  normalized_activity_proportion,
-  learning_proportion
-}) => {
-  //in case the user hasn't read anything, make the learning proportion 50 %
-  learning_proportion = learning_proportion === 0 ? 50 : learning_proportion
-  return (
-    <div
-      className="activity-bar"
-      style={{
-        width: normalized_activity_proportion + '%'
-      }}
-    >
-      <div
-        className="activity-bar__reading"
-        style={{
-          width: learning_proportion + '%'
-        }}
-      />
-      <div
-        className="activity-bar__exercises"
-        style={{
-          width: 100 - learning_proportion + '%'
-        }}
-      />
-    </div>
-  )
-}
-
-const StudentListTable = ({ students }) => {
+const StudentActivityOverview = ({ students }) => {
   const headItems = [
     {
       width: '25%',
       isSortable: true,
-      content: <p>NAME</p>
+      content: <p>NAME</p>,
     },
     {
       width: '15%',
       isSortable: true,
       content: <p>TIME SPENT</p>,
-      isSortedDefault: true
+      isSortedDefault: true,
     },
     { width: '20%', isSortable: true, content: <p>CLASS NAME</p> },
     {
@@ -60,18 +32,18 @@ const StudentListTable = ({ students }) => {
             Exercises
           </span>
         </p>
-      )
-    }
+      ),
+    },
   ]
 
-  const bodyItems = students.map(student => {
+  const bodyItems = students.map((student) => {
     return {
       data: [
         {
           sortingValue: student.name,
           sortingType: 'string',
           content: <p>{student.name}</p>,
-          width: '25%'
+          width: '25%',
         },
         {
           sortingValue: student.total_time,
@@ -82,13 +54,13 @@ const StudentListTable = ({ students }) => {
               {Math.floor(student.total_time / 3600)}h{' '}
               {Math.ceil((student.total_time / 60) % 60)}m
             </p>
-          )
+          ),
         },
         {
           sortingValue: student.cohort_name,
           sortingType: 'string',
           width: '20%',
-          content: <p>{student.cohort_name}</p>
+          content: <p>{student.cohort_name}</p>,
         },
         {
           width: '35%',
@@ -99,15 +71,15 @@ const StudentListTable = ({ students }) => {
               }
               learning_proportion={student.learning_proportion}
             />
-          )
-        }
+          ),
+        },
       ],
-      renderComponent: props => (
+      renderComponent: (props) => (
         <Link
           to={`/${process.env.REACT_APP_ROOT_NAME}/student/${student.id}`}
           {...props}
         />
-      )
+      ),
     }
   })
 
@@ -118,4 +90,4 @@ const StudentListTable = ({ students }) => {
   )
 }
 
-export default StudentListTable
+export default StudentActivityOverview
