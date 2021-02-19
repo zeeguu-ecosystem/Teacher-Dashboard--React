@@ -4,38 +4,9 @@ import ListTable from './ListTable'
 import { Link } from '@reach/router'
 import '../assets/styles/components/studentActivityOverview.scss'
 import ProgressBar from './ProgressBar'
+import { StudentActivityOverviewHead } from './StudentActivityOverviewHead'
 
 const StudentActivityOverview = ({ students }) => {
-  const headItems = [
-    {
-      width: '25%',
-      isSortable: true,
-      content: <p>NAME</p>,
-    },
-    {
-      width: '15%',
-      isSortable: true,
-      content: <p>TIME SPENT</p>,
-      isSortedDefault: true,
-    },
-    { width: '20%', isSortable: true, content: <p>CLASS NAME</p> },
-    {
-      width: '35%',
-      isSortable: false,
-      content: (
-        <p>
-          ACTIVITY{' '}
-          <span className="activity-heading activity-heading__reading">
-            Reading /
-          </span>
-          <span className="activity-heading activity-heading__exercises">
-            Exercises
-          </span>
-        </p>
-      ),
-    },
-  ]
-
   const bodyItems = students.map((student) => {
     return {
       data: [
@@ -85,7 +56,7 @@ const StudentActivityOverview = ({ students }) => {
 
   return (
     <div className="">
-      <ListTable headItems={headItems} bodyItems={bodyItems} />
+      <ListTable headItems={StudentActivityOverviewHead} bodyItems={bodyItems} />
     </div>
   )
 }

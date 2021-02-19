@@ -9,7 +9,7 @@ import {
 } from '../api/apiCohort'
 import CohortForm from '../components/CohortForm'
 import CohortArticles from '../components/CohortArticles'
-import StudentListTable from '../components/StudentListTable'
+import StudentActivityOverview from '../components/StudentActivityOverview'
 import NoStudents from '../components/NoStudents'
 import ClassroomContext from '../context/ClassroomContext'
 import TimePeriodContext from '../context/TimePeriodContext'
@@ -127,7 +127,7 @@ const Classroom = ({ cohortId }) => {
             </p>
           </>
         ) : (
-          <StudentListTable students={students} />
+          <StudentActivityOverview students={students} />
         )}
       </div>
     </ClassroomContext.Provider>
