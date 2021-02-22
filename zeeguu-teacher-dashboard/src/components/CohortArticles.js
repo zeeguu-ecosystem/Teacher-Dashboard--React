@@ -16,22 +16,7 @@ import UserContext from '../context/UserContext'
 import { UserInputArticleUpload } from './UserInputArticleUpload'
 import { createArticleObject } from './createArticleObject'
 import { ArticleList } from './ArticleList'
-
-//Function to read the article from the dropzone
-const readArticleContent = article => {
-  const reader = new FileReader()
-  return new Promise((resolve, reject) => {
-    reader.onload = function(event) {
-      const content = event.target.result
-
-      resolve(content)
-    }
-    reader.onerror = function(e) {
-      reject(e)
-    }
-    reader.readAsText(article)
-  })
-}
+import { articleContentReader } from './articleContentReader'
 
 const CohortArticles = () => {
   const cohortData = useContext(ClassroomContext)
@@ -41,6 +26,7 @@ const CohortArticles = () => {
   const [articles, setArticles] = useState([])
 
   useEffect(() => {
+    //Goes to db and gets the articles for the class to be rendered in the ArticlesList
     getArticles(cohortData.id).then(result => {
       setArticles(result.data)
     })
@@ -50,7 +36,7 @@ const CohortArticles = () => {
 
   const prepareArticles = articles => {
     const articlesData = articles.map(async article => {
-      const content = await readArticleContent(article)
+      const content = await articleContentReader(article)
       const object = createArticleObject(
         article.name,
         content,
