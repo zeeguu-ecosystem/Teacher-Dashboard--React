@@ -2,10 +2,10 @@ import React from 'react'
 import Chip from '@material-ui/core/Chip'
 import { deleteArticleFromCohort } from '../api/apiArticles'
 
-export const ArticleList = ({ articles, cohortData, setRefetchArticles }) => {
+export const ArticleList = ({ articles, cohortData, setForceRerender }) => {
   const deleteArticle = (article) => {
     deleteArticleFromCohort(cohortData.id, article.id).then((result) => {
-      setRefetchArticles((prev) => prev + 1)
+      setForceRerender((prev) => prev + 1)
     })
   }
 

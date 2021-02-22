@@ -10,7 +10,7 @@ import { createArticleObject } from './componentHelpers/createArticleObject'
 import { languageMap } from '../utilities/helpers'
 
 
-export const DragDropArticleUpload = ({ user, cohortData, setRefetchArticles }) => {
+export const DragDropArticleUpload = ({ user, cohortData, setForceRerender }) => {
     const languageCode = languageMap[cohortData.language_name]
     const [articlesToUpload, setArticlesToUpload] = useState([])
     
@@ -33,7 +33,7 @@ export const DragDropArticleUpload = ({ user, cohortData, setRefetchArticles }) 
       const onUploadArticles = e => {
         e.preventDefault()
         uploadArticles(cohortData.id, articlesToUpload).then(result => {
-          setRefetchArticles(prev => prev + 1)
+          setForceRerender(prev => prev + 1)
           setArticlesToUpload([])
         })
       }
