@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { languageMap } from '../utilities/helpers'
 import { Button, TextField } from '@material-ui/core'
 import { uploadArticles } from '../api/apiArticles'
-import { createArticleObject }  from './createArticleObject'
+import { createArticleObject }  from './componentHelpers/createArticleObject'
 
 export const UserInputArticleUpload = ({ user, refetchArticles, cohortData }) => {
   const languageCode = languageMap[cohortData.language_name]
