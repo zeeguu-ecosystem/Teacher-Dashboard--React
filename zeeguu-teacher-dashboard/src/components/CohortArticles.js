@@ -5,7 +5,6 @@ import Dropzone from 'react-dropzone'
 import { uploadArticles, deleteArticleFromCohort } from '../api/apiArticles'
 
 import { MdCloudUpload } from 'react-icons/md/'
-import Chip from '@material-ui/core/Chip'
 
 import { languageMap } from '../utilities/helpers'
 
@@ -16,6 +15,7 @@ import ClassroomContext from '../context/ClassroomContext'
 import UserContext from '../context/UserContext'
 import { UserInputArticleUpload } from './UserInputArticleUpload'
 import { createArticleObject } from './createArticleObject'
+import { ArticleList } from './ArticleList'
 
 //Function to read the article from the dropzone
 const readArticleContent = article => {
@@ -126,27 +126,6 @@ const CohortArticles = () => {
         user={user}
         cohortData={cohortData}
       />
-    </div>
-  )
-}
-
-const ArticleList = ({ articles, deleteArticle }) => {
-  return (
-    <div className="article-list-container">
-      <h4>Article list</h4>
-      <ul className="article-list">
-        {articles.map(article => {
-          return (
-            <li key={article.id}>
-              <Chip
-                label={article.title}
-                onDelete={() => deleteArticle(article)}
-                className="article"
-              />
-            </li>
-          )
-        })}
-      </ul>
     </div>
   )
 }
