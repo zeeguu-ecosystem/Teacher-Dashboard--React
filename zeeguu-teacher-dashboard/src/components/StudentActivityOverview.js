@@ -1,62 +1,16 @@
 import React from 'react'
-
 import ListTable from './ListTable'
-import { Link } from '@reach/router'
 import '../assets/styles/components/studentActivityOverview.scss'
-import ProgressBar from './ProgressBar'
 import { StudentActivityOverviewHead } from './StudentActivityOverviewHead'
+import { StudentActivityOverviewBody } from './StudentActivityOverviewBody'
 
 const StudentActivityOverview = ({ students }) => {
-  const bodyItems = students.map((student) => {
-    return {
-      data: [
-        {
-          sortingValue: student.name,
-          sortingType: 'string',
-          content: <p>{student.name}</p>,
-          width: '25%',
-        },
-        {
-          sortingValue: student.total_time,
-          sortingType: 'number',
-          width: '15%',
-          content: (
-            <p>
-              {Math.floor(student.total_time / 3600)}h{' '}
-              {Math.ceil((student.total_time / 60) % 60)}m
-            </p>
-          ),
-        },
-        {
-          sortingValue: student.cohort_name,
-          sortingType: 'string',
-          width: '20%',
-          content: <p>{student.cohort_name}</p>,
-        },
-        {
-          width: '35%',
-          content: (
-            <ProgressBar
-              normalized_activity_proportion={
-                student.normalized_activity_proportion
-              }
-              learning_proportion={student.learning_proportion}
-            />
-          ),
-        },
-      ],
-      renderComponent: (props) => (
-        <Link
-          to={`/${process.env.REACT_APP_ROOT_NAME}/student/${student.id}`}
-          {...props}
-        />
-      ),
-    }
-  })
-
   return (
     <div className="">
-      <ListTable headItems={StudentActivityOverviewHead} bodyItems={bodyItems} />
+      <ListTable
+        headItems={StudentActivityOverviewHead}
+        bodyItems={StudentActivityOverviewBody(students)}
+      />
     </div>
   )
 }

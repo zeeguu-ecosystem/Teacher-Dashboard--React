@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Button, TextField } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import Dropzone from 'react-dropzone'
 
 import { uploadArticles, deleteArticleFromCohort } from '../api/apiArticles'
@@ -14,7 +14,10 @@ import { getArticles } from '../api/apiArticles'
 import '../assets/styles/components/cohortArticles.scss'
 import ClassroomContext from '../context/ClassroomContext'
 import UserContext from '../context/UserContext'
+import { UserInputArticleUpload } from './UserInputArticleUpload'
+import { createArticleObject } from './createArticleObject'
 
+//Function to read the article from the dropzone
 const readArticleContent = article => {
   const reader = new FileReader()
   return new Promise((resolve, reject) => {
@@ -30,28 +33,10 @@ const readArticleContent = article => {
   })
 }
 
-const createArticleObject = (name, content, languageCode, user) => {
-  const title = name.substr(0, name.lastIndexOf('.')) || name
-
-  const words = content.split(/\s+/)
-  const summary = words.slice(0, 30).join(' ')
-  const authors = user.name
-
-  const articleObject = {
-    title,
-    content,
-    authors,
-    summary,
-    language_code: languageCode
-  }
-
-  return articleObject
-}
-
 const CohortArticles = () => {
   const cohortData = useContext(ClassroomContext)
   const user = useContext(UserContext)
-  const [refetchArticles, setRefetchArticles] = useState(0)
+  const [refetchArticles, setRefetchArticles] = useState(0) //this state is only used to force updates on article upload/delete
   const [articlesToUpload, setArticlesToUpload] = useState([])
   const [articles, setArticles] = useState([])
 
@@ -136,9 +121,10 @@ const CohortArticles = () => {
         ) : null}
       </div>
 
-      <UserInput
+      <UserInputArticleUpload
         refetchArticles={() => setRefetchArticles(prev => prev + 1)}
         user={user}
+        cohortData={cohortData}
       />
     </div>
   )
@@ -162,78 +148,6 @@ const ArticleList = ({ articles, deleteArticle }) => {
         })}
       </ul>
     </div>
-  )
-}
-
-const UserInput = ({ user, refetchArticles }) => {
-  const cohortData = useContext(ClassroomContext)
-  const languageCode = languageMap[cohortData.language_name]
-
-  const [state, setState] = useState({
-    article_title: '',
-    article_content: ''
-  })
-
-  const handleChange = event => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.value
-    })
-  }
-
-  const submitArticle = e => {
-    e.preventDefault()
-    let articleObj = createArticleObject(
-      state.article_title,
-      state.article_content,
-      languageCode,
-      user
-    )
-    uploadArticles(cohortData.id, [articleObj]).then(result => {
-      refetchArticles()
-    })
-    setState({
-      article_title: '',
-      article_content: ''
-    })
-  }
-
-  return (
-    <form onSubmit={submitArticle}>
-      <TextField
-        type="text"
-        placeholder="This will be the title of the article"
-        value={state.article_title}
-        onChange={handleChange}
-        name="article_title"
-        id="article_title"
-        label="Article title"
-        fullWidth
-      />
-      <TextField
-        type="text"
-        placeholder="Type any text here to create an article"
-        multiline={true}
-        value={state.article_content}
-        onChange={handleChange}
-        name="article_content"
-        id="article_content"
-        label="Article content"
-        rows={6}
-        fullWidth
-      />
-      <div>
-        <Button
-          style={{ marginTop: 10 }}
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={!(state.article_title && state.article_content)}
-        >
-          Submit Article{' '}
-        </Button>
-      </div>
-    </form>
   )
 }
 
