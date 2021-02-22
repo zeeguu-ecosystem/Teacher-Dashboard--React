@@ -1,7 +1,14 @@
 import React from 'react'
 import Chip from '@material-ui/core/Chip'
+import { deleteArticleFromCohort } from '../api/apiArticles'
 
-export const ArticleList = ({ articles, deleteArticle }) => {
+export const ArticleList = ({ articles, cohortData, setRefetchArticles }) => {
+  const deleteArticle = (article) => {
+    deleteArticleFromCohort(cohortData.id, article.id).then((result) => {
+      setRefetchArticles((prev) => prev + 1)
+    })
+  }
+
     return (
       <div className="article-list-container">
         <h4>Article list</h4>

@@ -4,7 +4,7 @@ import { Button, TextField } from '@material-ui/core'
 import { uploadArticles } from '../api/apiArticles'
 import { createArticleObject }  from './componentHelpers/createArticleObject'
 
-export const UserInputArticleUpload = ({ user, refetchArticles, cohortData }) => {
+export const UserInputArticleUpload = ({ user, setRefetchArticles, cohortData }) => {
   const languageCode = languageMap[cohortData.language_name]
 
   const [state, setState] = useState({
@@ -28,7 +28,7 @@ export const UserInputArticleUpload = ({ user, refetchArticles, cohortData }) =>
       user
     )
     uploadArticles(cohortData.id, [articleObj]).then((result) => {
-      refetchArticles()
+      setRefetchArticles()
     })
     setState({
       article_title: '',

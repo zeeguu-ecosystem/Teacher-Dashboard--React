@@ -1,7 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
 
-import { deleteArticleFromCohort } from '../api/apiArticles'
-
 import { getArticles } from '../api/apiArticles'
 
 import '../assets/styles/components/cohortArticles.scss'
@@ -20,27 +18,26 @@ const CohortArticles = () => {
   useEffect(() => {
     getArticles(cohortData.id).then((result) => {
       setArticles(result.data)
+      console.log("STATE CHENGED REFETCHARTICLES IS NOW: "+ refetchArticles)
     })
   }, [refetchArticles])
-
-  const deleteArticle = (article) => {
-    deleteArticleFromCohort(cohortData.id, article.id).then((result) => {
-      setRefetchArticles((prev) => prev + 1)
-    })
-  }
 
   return (
     <div className="article-manager">
       <h2>Manage articles</h2>
-      <ArticleList articles={articles} deleteArticle={deleteArticle} />
-      <DragDropArticleUpload
+      <ArticleList
+        articles={articles}
         setRefetchArticles={() => setRefetchArticles((prev) => prev + 1)}
+        cohortData={cohortData}
+      />
+      <DragDropArticleUpload
         user={user}
+        setRefetchArticles={() => setRefetchArticles((prev) => prev + 1)}
         cohortData={cohortData}
       />
       <UserInputArticleUpload
-        refetchArticles={() => setRefetchArticles((prev) => prev + 1)}
         user={user}
+        setRefetchArticles={() => setRefetchArticles((prev) => prev + 1)}
         cohortData={cohortData}
       />
     </div>
