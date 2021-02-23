@@ -5,9 +5,10 @@ import Dropzone from 'react-dropzone'
 import { MdCloudUpload } from 'react-icons/md/'
 
 import { uploadArticles } from '../api/apiArticles'
-import { articleContentReader } from './componentHelpers/articleContentReader'
-import { createArticleObject } from './componentHelpers/createArticleObject'
-import { languageMap } from '../utilities/helpers'
+import { articleContentReader } from '../helpers/articleHelpers'
+import { createArticleObject } from '../helpers/articleHelpers'
+
+import { languageMap } from '../helpers/sharedHelpers'
 
 
 export const DragDropArticleUpload = ({ user, cohortData, setForceRerender }) => {

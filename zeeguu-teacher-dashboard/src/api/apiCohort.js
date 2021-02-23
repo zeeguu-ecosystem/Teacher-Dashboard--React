@@ -1,4 +1,4 @@
-import { transformStudents } from '../utilities/helpers'
+import { transformStudents } from '../helpers/apiCohortHelpers'
 import { apiGet, apiPost } from './apiEndpoints'
 
 export function createCohort(data) {

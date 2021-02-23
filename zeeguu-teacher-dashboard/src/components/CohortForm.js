@@ -13,7 +13,7 @@ import { toast } from 'react-toastify'
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
 import { deleteCohort as deleteCohortAPI } from '../api/apiCohort'
-import { languageMap } from '../utilities/helpers'
+import { languageMap } from '../helpers/sharedHelpers'
 
 const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   const [isLoading, setIsLoading] = useState(false)
