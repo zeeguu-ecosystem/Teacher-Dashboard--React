@@ -58,7 +58,7 @@ export const DragDropArticleUpload = ({ user, cohortData, setForceRerender }) =>
                     </ul>
                   ) : (
                     <p>
-                      Drag and drop some files here, or click to select files
+                      Drag and drop file here, or click to select file
                     </p>
                   )}
                 </div>
@@ -73,7 +73,7 @@ export const DragDropArticleUpload = ({ user, cohortData, setForceRerender }) =>
             color="default"
             style={{ marginTop: 10 }}
           >
-            Upload files as articles
+            Upload article
             <MdCloudUpload style={{ marginLeft: '10px' }} />
           </Button>
         ) : null}

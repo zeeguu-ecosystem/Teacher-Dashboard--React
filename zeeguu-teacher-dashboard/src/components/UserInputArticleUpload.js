@@ -15,7 +15,7 @@ export const UserInputArticleUpload = ({ user, setForceRerender, cohortData }) =
   const handleChange = (event) => {
     setState({
       ...state, //for all element in state do ...
-      [event.target.name]: event.target.value, //ie: article_title : "Harry Potter tickets sold out", article_content : bla bla bla
+      [event.target.name]: event.target.value, //ie: article_title : "Harry Potter tickets sold out", article_content : "bla bla bla"
     })
   }
 
@@ -28,7 +28,7 @@ export const UserInputArticleUpload = ({ user, setForceRerender, cohortData }) =
       user
     )
     uploadArticles(cohortData.id, [articleObj]).then((result) => {
-      setForceRerender()
+      setForceRerender(prev => prev + 1)
     })
     setState({
       article_title: '',
