@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { MdAddCircle } from 'react-icons/md/'
 import { createCohort } from '../api/apiCohort'
 import CohortForm from './CohortForm'
-import { CohortItemCard }from './CohortItemCard'
+import { CohortItemCard } from './CohortItemCard'
 import { toast } from 'react-toastify'
 
 import '../assets/styles/components/cohortList.scss'

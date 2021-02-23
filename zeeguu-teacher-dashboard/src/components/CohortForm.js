@@ -6,13 +6,11 @@ import {
   Select,
   TextField
 } from '@material-ui/core'
-import { navigate } from '@reach/router'
 import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
-
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
-import { deleteCohort as deleteCohortAPI } from '../api/apiCohort'
+import { Error } from './Error'
+import { DangerZone } from './DangerZone'
 import { languageMap } from '../helpers/sharedHelpers'
 
 const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
@@ -138,55 +136,6 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
         </Button>
       </form>
       {cohort && <DangerZone cohortId={cohort.id} />}
-    </div>
-  )
-}
-
-const Error = ({ setLoading, message }) => {
-  setLoading(false)
-  return <p style={{ color: 'red', width: '100%' }}>{message}</p>
-}
-
-const DangerZone = ({ cohortId }) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
-
-  function deleteCohort(cohortId) {
-    setIsLoading(true)
-    setIsError(false)
-    deleteCohortAPI(cohortId)
-      .then(res => {
-        toast('👩‍🎓 The class was deleted!', {
-          type: toast.TYPE.SUCCESS
-        })
-        navigate(`/${process.env.REACT_APP_ROOT_NAME}`)
-      })
-      .catch(err => {
-        toast('🤨 The class could not be deleted', {
-          type: toast.TYPE.ERROR
-        })
-        setIsError(true)
-      })
-  }
-
-  return (
-    <div style={{ marginTop: 60 }}>
-      <h3>Danger zone</h3>
-      <p>Press the button to delete the class. The class must be empty. </p>
-      <Button
-        style={{ marginTop: 10 }}
-        onClick={() => deleteCohort(cohortId)}
-        variant="contained"
-        color="secondary"
-      >
-        {isLoading ? <SpringSpinner size={24} /> : 'Delete Class'}
-      </Button>
-      {isError && (
-        <Error
-          message={`You can't delete a class that has students or files.`}
-          setLoading={setIsLoading}
-        />
-      )}
     </div>
   )
 }
