@@ -5,8 +5,8 @@ import Dropzone from 'react-dropzone'
 import { MdCloudUpload } from 'react-icons/md/'
 
 import { uploadArticles } from '../api/apiArticles'
-import { articleContentReader } from '../helpers/articleHelpers'
-import { createArticleObject } from '../helpers/articleHelpers'
+import { articleContentReader } from '../helpers/articleUploadHelpers'
+import { createArticleObject } from '../helpers/articleUploadHelpers'
 
 import { languageMap } from '../helpers/sharedHelpers'
 

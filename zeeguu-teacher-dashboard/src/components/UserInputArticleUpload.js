@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { languageMap } from '../helpers/sharedHelpers'
 import { Button, TextField } from '@material-ui/core'
 import { uploadArticles } from '../api/apiArticles'
-import { createArticleObject }  from '../helpers/articleHelpers'
+import { createArticleObject }  from '../helpers/articleUploadHelpers'
 
 export const UserInputArticleUpload = ({ user, setForceRerender, cohortData }) => {
   const languageCode = languageMap[cohortData.language_name]
