@@ -8,7 +8,7 @@ import { uploadArticles } from '../api/apiArticles'
 import { articleContentReader } from '../helpers/articleUploadHelpers'
 import { createArticleObject } from '../helpers/articleUploadHelpers'
 
-import { languageMap } from '../helpers/sharedHelpers'
+import { languageMap } from '../helpers/sharedHelperMaps'
 
 
 export const DragDropArticleUpload = ({ user, cohortData, setForceRerender }) => {

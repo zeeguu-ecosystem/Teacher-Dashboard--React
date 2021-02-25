@@ -1,17 +1,16 @@
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField
-} from '@material-ui/core'
+import { Button, FormControl, InputLabel} from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
 import { Error } from './Error'
 import { DangerZone } from './DangerZone'
-import { languageMap } from '../helpers/sharedHelpers'
+import { languageMap } from '../helpers/sharedHelperMaps'
+import { LanguageSelector } from './LanguageSelector'
+import {
+  CohortNameTextfield,
+  InviteCodeTextfield,
+  StudentNumberTextField,
+} from './CohortFormTextFields'
 
 const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -23,20 +22,20 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
     invite_code: cohort ? cohort.inv_code : '',
     language_id: cohort ? languageMap[cohort.language_name] : 'es',
     max_students: cohort ? cohort.max_students : 20,
-    labelWidth: 0
+    labelWidth: 0,
   })
 
   useEffect(() => {
     setState({
       ...state,
-      labelWidth: ReactDOM.findDOMNode(inputLabelRef.current).offsetWidth
+      labelWidth: ReactDOM.findDOMNode(inputLabelRef.current).offsetWidth,
     })
   }, [])
 
   function handleChange(event) {
     setState({
       ...state,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -59,36 +58,18 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   return (
     <div>
       <form onSubmit={submitForm} style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <TextField
+        <CohortNameTextfield
           value={state.cohort_name}
           onChange={handleChange}
-          name="cohort_name"
-          id="cohort_name"
-          label="Name of class"
-          fullWidth
-          type="text"
-          required
         />
-        <TextField
+        <InviteCodeTextfield
           value={state.invite_code}
           onChange={handleChange}
-          name="invite_code"
-          id="invite_code"
-          label="Invite Code"
-          fullWidth
-          type="text"
-          required
         />
-        <TextField
+        <StudentNumberTextField
           value={state.max_students}
           onChange={handleChange}
-          name="max_students"
-          id="max_students"
-          label="Maximum number of students"
-          fullWidth
-          type="number"
-          required
-          disabled={!!cohort}
+          cohort={cohort}
         />
         <FormControl
           fullWidth
@@ -99,24 +80,7 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
           <InputLabel ref={inputLabelRef} htmlFor="language_id">
             Learned Language
           </InputLabel>
-          <Select
-            inputProps={{
-              name: 'language_id',
-              id: 'language_id'
-            }}
-            value={state.language_id}
-            onChange={handleChange}
-          >
-            <MenuItem value={'zh-CN'}>Chinese</MenuItem>
-            <MenuItem value={'da'}>Danish</MenuItem>
-            <MenuItem value={'nl'}>Dutch</MenuItem>
-            <MenuItem value={'en'}>English</MenuItem>
-            <MenuItem value={'fr'}>French</MenuItem>
-            <MenuItem value={'de'}>German</MenuItem>
-            <MenuItem value={'it'}>Italian</MenuItem>
-            <MenuItem value={'es'}>Spanish</MenuItem>
-
-          </Select>
+          <LanguageSelector value={state.language_id} onChange={handleChange} />
         </FormControl>
         {isError && (
           <Error

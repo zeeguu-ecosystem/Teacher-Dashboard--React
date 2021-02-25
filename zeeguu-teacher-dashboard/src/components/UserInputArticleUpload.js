@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { languageMap } from '../helpers/sharedHelpers'
+import { languageMap } from '../helpers/sharedHelperMaps'
 import { Button, TextField } from '@material-ui/core'
 import { uploadArticles } from '../api/apiArticles'
 import { createArticleObject }  from '../helpers/articleUploadHelpers'

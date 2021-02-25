@@ -11,7 +11,7 @@ import {
   secondsToHoursAndMinutes,
   millisecondsToSeconds,
 } from '../helpers/studentPageHelpers'
-import { timePeriodMap } from '../helpers/sharedHelpers'
+import { timePeriodMap } from '../helpers/sharedHelperMaps'
 import TimePeriodContext from '../context/TimePeriodContext'
 import ElephantLoader from '../components/ElephantLoader'
 

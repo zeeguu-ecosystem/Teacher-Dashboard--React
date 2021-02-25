@@ -5,7 +5,7 @@ import '../assets/styles/components/timeperiod.scss'
 
 import TimePeriodContext from '../context/TimePeriodContext'
 
-import { timePeriodMap } from '../helpers/sharedHelpers'
+import { timePeriodMap } from '../helpers/sharedHelperMaps'
 
 const TimePeriod = () => {
   const { timePeriod, setTimePeriod } = useContext(TimePeriodContext)
