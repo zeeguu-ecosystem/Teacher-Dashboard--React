@@ -5,7 +5,7 @@ import TimePeriodContext from '../context/TimePeriodContext'
 import { getCohortsInfo, getUsersByTeacher } from '../api/apiCohort'
 import NoStudents from '../components/NoStudents'
 import CohortList from '../components/CohortList'
-import StudentListTable from '../components/StudentListTable'
+import StudentActivityOverview from '../components/StudentActivityOverview'
 import '../assets/styles/pages/Home.scss'
 import ElephantLoader from '../components/ElephantLoader'
 
@@ -61,7 +61,7 @@ const Home = () => {
           isLoadingStudents ? (
             <ElephantLoader />
           ) : allStudents.length ? (
-            <StudentListTable students={allStudents} />
+            <StudentActivityOverview students={allStudents} />
           ) : (
             <NoStudents />
           )

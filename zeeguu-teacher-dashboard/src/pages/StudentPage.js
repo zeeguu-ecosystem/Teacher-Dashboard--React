@@ -1,7 +1,7 @@
 import {
   ExpansionPanel,
   ExpansionPanelDetails,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
 } from '@material-ui/core'
 import { MdExpandMore, MdKeyboardArrowRight } from 'react-icons/md/'
 import React, { useEffect, useState, useContext } from 'react'
@@ -10,12 +10,12 @@ import '../assets/styles/pages/studentPage.scss'
 import {
   secondsToHoursAndMinutes,
   millisecondsToSeconds,
-  timePeriodMap
-} from '../utilities/helpers'
+} from '../helpers/studentPageHelpers'
+import { timePeriodMap } from '../helpers/sharedHelperMaps'
 import TimePeriodContext from '../context/TimePeriodContext'
 import ElephantLoader from '../components/ElephantLoader'
 
-const sessionDuration = readingSession => {
+const sessionDuration = (readingSession) => {
   return secondsToHoursAndMinutes(
     millisecondsToSeconds(readingSession.duration)
   )
@@ -28,9 +28,9 @@ const StudentActivity = ({ studentId }) => {
 
   useEffect(() => {
     setIsLoading(true)
-    loadUserSessions(studentId, timePeriod).then(result => {
+    loadUserSessions(studentId, timePeriod).then((result) => {
       let totalArticlesCount = 0
-      result.forEach(day => {
+      result.forEach((day) => {
         totalArticlesCount += day.reading_sessions.length
       })
       setArticlesByDate(result)
@@ -70,16 +70,14 @@ const StudentActivity = ({ studentId }) => {
                   <ExpansionPanelDetails
                     style={{
                       display: 'flex',
-                      flexDirection: 'column'
+                      flexDirection: 'column',
                     }}
                   >
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
                       className="student-activity-item-link"
-                      href={`/read/article?articleID=${
-                        readingSession.article_id
-                      }`}
+                      href={`/read/article?articleID=${readingSession.article_id}`}
                     >
                       Read article →
                     </a>
@@ -94,7 +92,7 @@ const StudentActivity = ({ studentId }) => {
                           >
                             {sentence.context}
                             <div className="student-page-bookmarks">
-                              {sentence.bookmarks.map(bookmark => (
+                              {sentence.bookmarks.map((bookmark) => (
                                 <p key={bookmark.id}>
                                   <span className="student-page-bookmark-from">
                                     {bookmark.from}

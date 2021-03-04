@@ -1,19 +1,16 @@
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField
-} from '@material-ui/core'
-import { navigate } from '@reach/router'
+import { Button, FormControl, InputLabel} from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
-
 import ReactDOM from 'react-dom'
 import { SpringSpinner } from 'react-epic-spinners'
-import { deleteCohort as deleteCohortAPI } from '../api/apiCohort'
-import { languageMap } from '../utilities/helpers'
+import { Error } from './Error'
+import { DangerZone } from './DangerZone'
+import { languageMap } from '../helpers/sharedHelperMaps'
+import { LanguageSelector } from './LanguageSelector'
+import {
+  CohortNameTextfield,
+  InviteCodeTextfield,
+  StudentNumberTextField,
+} from './CohortFormTextFields'
 
 const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -25,20 +22,20 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
     invite_code: cohort ? cohort.inv_code : '',
     language_id: cohort ? languageMap[cohort.language_name] : 'es',
     max_students: cohort ? cohort.max_students : 20,
-    labelWidth: 0
+    labelWidth: 0,
   })
 
   useEffect(() => {
     setState({
       ...state,
-      labelWidth: ReactDOM.findDOMNode(inputLabelRef.current).offsetWidth
+      labelWidth: ReactDOM.findDOMNode(inputLabelRef.current).offsetWidth,
     })
   }, [])
 
   function handleChange(event) {
     setState({
       ...state,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     })
   }
 
@@ -61,36 +58,18 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
   return (
     <div>
       <form onSubmit={submitForm} style={{ display: 'flex', flexWrap: 'wrap' }}>
-        <TextField
+        <CohortNameTextfield
           value={state.cohort_name}
           onChange={handleChange}
-          name="cohort_name"
-          id="cohort_name"
-          label="Name of class"
-          fullWidth
-          type="text"
-          required
         />
-        <TextField
+        <InviteCodeTextfield
           value={state.invite_code}
           onChange={handleChange}
-          name="invite_code"
-          id="invite_code"
-          label="Invite Code"
-          fullWidth
-          type="text"
-          required
         />
-        <TextField
+        <StudentNumberTextField
           value={state.max_students}
           onChange={handleChange}
-          name="max_students"
-          id="max_students"
-          label="Maximum number of students"
-          fullWidth
-          type="number"
-          required
-          disabled={!!cohort}
+          cohort={cohort}
         />
         <FormControl
           fullWidth
@@ -101,24 +80,7 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
           <InputLabel ref={inputLabelRef} htmlFor="language_id">
             Learned Language
           </InputLabel>
-          <Select
-            inputProps={{
-              name: 'language_id',
-              id: 'language_id'
-            }}
-            value={state.language_id}
-            onChange={handleChange}
-          >
-            <MenuItem value={'zh-CN'}>Chinese</MenuItem>
-            <MenuItem value={'da'}>Danish</MenuItem>
-            <MenuItem value={'nl'}>Dutch</MenuItem>
-            <MenuItem value={'en'}>English</MenuItem>
-            <MenuItem value={'fr'}>French</MenuItem>
-            <MenuItem value={'de'}>German</MenuItem>
-            <MenuItem value={'it'}>Italian</MenuItem>
-            <MenuItem value={'es'}>Spanish</MenuItem>
-
-          </Select>
+          <LanguageSelector value={state.language_id} onChange={handleChange} />
         </FormControl>
         {isError && (
           <Error
@@ -138,55 +100,6 @@ const CohortForm = ({ primaryButtonText, cohort, isError, onSubmit }) => {
         </Button>
       </form>
       {cohort && <DangerZone cohortId={cohort.id} />}
-    </div>
-  )
-}
-
-const Error = ({ setLoading, message }) => {
-  setLoading(false)
-  return <p style={{ color: 'red', width: '100%' }}>{message}</p>
-}
-
-const DangerZone = ({ cohortId }) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [isError, setIsError] = useState(false)
-
-  function deleteCohort(cohortId) {
-    setIsLoading(true)
-    setIsError(false)
-    deleteCohortAPI(cohortId)
-      .then(res => {
-        toast('👩‍🎓 The class was deleted!', {
-          type: toast.TYPE.SUCCESS
-        })
-        navigate(`/${process.env.REACT_APP_ROOT_NAME}`)
-      })
-      .catch(err => {
-        toast('🤨 The class could not be deleted', {
-          type: toast.TYPE.ERROR
-        })
-        setIsError(true)
-      })
-  }
-
-  return (
-    <div style={{ marginTop: 60 }}>
-      <h3>Danger zone</h3>
-      <p>Press the button to delete the class. The class must be empty. </p>
-      <Button
-        style={{ marginTop: 10 }}
-        onClick={() => deleteCohort(cohortId)}
-        variant="contained"
-        color="secondary"
-      >
-        {isLoading ? <SpringSpinner size={24} /> : 'Delete Class'}
-      </Button>
-      {isError && (
-        <Error
-          message={`You can't delete a class that has students or files.`}
-          setLoading={setIsLoading}
-        />
-      )}
     </div>
   )
 }

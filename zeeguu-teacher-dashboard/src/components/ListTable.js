@@ -21,7 +21,7 @@ const SortingArrows = ({ sortedStatus }) => {
 // We are not using the html "table" element because each row is a link.
 // implementing that functionality with table is very complex, and also bad for accessibility reasons.
 // Therefore an unordered list is used
-const ListTable = ({ headItems, bodyItems, tableRowComponent }) => {
+const ListTable = ({ headItems, bodyItems }) => {
   const NO_ACTIVE_SORTING_INDEX = -1
   const [sortingInfo, setSortingInfo] = useState({
     sortingIndex: NO_ACTIVE_SORTING_INDEX,
