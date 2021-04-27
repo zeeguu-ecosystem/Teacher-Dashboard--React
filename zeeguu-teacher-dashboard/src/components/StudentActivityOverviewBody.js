@@ -9,7 +9,7 @@ export const StudentActivityOverviewBody = (students) => students.map((student) 
         {
           sortingValue: student.name,
           sortingType: 'string',
-          content: <p>{student.name}</p>,
+          content: <p>{student.name} <small>({student.email})</small></p>,
           width: '25%',
         },
         //b
