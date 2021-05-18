@@ -28,7 +28,7 @@ export const StudentActivityOverviewBody = (students) => students.map((student) 
           sortingValue: student.cohort_name,
           sortingType: 'string',
           width: '20%',
-          content: <p>{student.cohort_name}</p>,
+          content: <p>{student.cohort_name}({student.cohort_id})</p>,
         },
         {
           width: '35%',
